@@ -1,0 +1,347 @@
+/* =========================================
+   1. FUENTES Y VARIABLES GLOBALES
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+:root {
+    /* Colores base que el JS sobreescribirá según la hora */
+    --bg-actual: #4699c2;       /* Fondo de la página */
+    --reloj-actual: #7dc3e6;    /* Color de los bloques del reloj */
+    --reloj-sec: #5da9d1;       /* Color del bloque de segundos */
+    --accent-blue: #7dc3e6;
+    --card-bg: #fdfbff;
+    --text-main: #1c1b1f;
+    
+    /* Paleta Sunset (para referencia) */
+    --sunset-orange: #ff7e5f;
+    --sunset-pink: #feb47b;
+    --sunset-red: #e94e33;
+}
+
+/* =========================================
+   2. ESTILOS DE CUERPO Y ESTRUCTURA
+   ========================================= */
+
+   body, html {
+    overflow-x: hidden; /* Bloquea el movimiento lateral */
+    width: 100%;
+}
+
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-actual); /* Cambia por JS */
+    transition: background-color 0.8s ease; /* Transición suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+    width: 90%;
+    max-width: 1100px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(5px);
+    z-index: 1;
+}
+
+/* =========================================
+   3. CABECERA Y FECHA
+   ========================================= */
+.header-main-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+h2#current-day-title {
+    font-weight: 800;
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+    margin: 0;
+    color: #1a2a33;
+}
+
+#current-full-date {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #5da9d1;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.time-phase-badge {
+    background: var(--reloj-actual); /* Cambia por JS */
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background 0.5s ease;
+}
+
+/* =========================================
+   4. RELOJ (WIDGET)
+   ========================================= */
+.widget {
+    background: var(--card-bg);
+    border-radius: 28px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+/* Bloques con número (Mantenemos fondo y color blanco) */
+.time-val {
+    font-family: 'Courier New', Courier, monospace;
+    width: 65px;
+    height: 65px;
+    background-color: var(--reloj-actual) !important; /* Dinámico por JS */
+    border-radius: 12px;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white !important;
+    transition: background-color 0.5s ease;
+}
+
+.time-val.sec {
+    background-color: var(--reloj-sec) !important; /* Dinámico por JS */
+}
+
+.separator {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--reloj-actual);
+    transition: color 0.5s ease;
+}
+
+/* Indicadores AM/PM */
+.am-pm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    margin-left: 5px;
+    margin-top: -20px;
+}
+
+.am-pm button {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 6px;
+    color: #666;
+    pointer-events: none;
+}
+
+.am-pm button.active {
+    background: var(--reloj-actual);
+    color: white;
+    border-color: var(--reloj-actual);
+}
+
+/* =========================================
+   5. LISTA DE TAREAS Y SCROLL
+   ========================================= */
+.scrollable-list {
+    max-height: 65vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.scrollable-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.task-card {
+    width: 100%; /* Ocupa todo el ancho disponible del padre */
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 20px !important;
+    padding: 15px;
+    box-sizing: border-box; /* Fundamental: incluye el padding y borde en el ancho total */
+    position: relative;
+    border: 2px solid transparent; /* Reserva el espacio para cuando se active */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Corta cualquier cosa que quiera generar scroll interno */
+}
+
+/* Ajuste específico para la Tarea Activa */
+.task-card.active-now {
+    border-color: var(--reloj-actual) !important;
+    background-color: #fff;
+    transform: scale(1.01);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+
+
+
+/* Evita que el texto cause scrolls extraños */
+
+.task-info {
+    flex: 1; /* Ocupa el resto del espacio */
+    padding-left: 20px; /* <--- Esto separa el texto del cuadro de las horas */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.task-info p {
+    margin-top: 5px;
+    color: #555;
+    line-height: 1.4;
+    font-size: 0.95rem;
+}
+/* Asegurar que el indicador lateral de la tarea activa resalte */
+.task-card.active-now .time-tag {
+    background: var(--reloj-actual);
+    color: white;
+}
+
+.time-tag {
+    background: #eef7fb;
+    color: #2c5d75;
+    padding: 12px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    min-width: 85px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+    border-left: 4px solid var(--reloj-actual);
+}
+
+.task-info strong {
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+
+.duration-pill {
+    font-size: 0.7em;
+    background: #d1e9f5;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Tarea Activa (Resaltado dinámico) */
+
+/* =========================================
+   6. ESTRELLAS Y EFECTOS
+   ========================================= */
+#stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0; /* JS la activa solo de noche */
+    transition: opacity 2s ease;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--duration) infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+#schedule-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio uniforme entre tarjetas */
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Elimina cualquier scroll lateral accidental */
+}
+
+/* Si tenías alguna regla que quitaba bordes al primero, la anulamos */
+#schedule-container .task-card:first-child {
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+}
+
+.exercise-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.exercise-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.exercise-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.exercise-list li:last-child {
+    border-bottom: none;
+}
+
+.btn-primary {
+    background-color: var(--reloj-actual); /* Se adapta al color del día/tarde/noche */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
