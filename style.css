@@ -408,7 +408,7 @@ h2#current-day-title {
     }
 }
 
-/* Ajuste extra para pantallas muy pequeñas (iPhone SE / mini) */
+
 @media (max-width: 400px) {
     .time-val {
         width: 45px;
