@@ -345,3 +345,79 @@ h2#current-day-title {
     transform: translateY(-2px);
     filter: brightness(1.1);
 }
+
+/* =========================================
+   7. DISEÑO RESPONSIVE (CELULARES)
+   ========================================= */
+
+@media (max-width: 850px) {
+    /* 1. Cambiamos el grid a una sola columna */
+    .main-container {
+        grid-template-columns: 1fr;
+        width: 95%;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    /* 2. Ajustamos la cabecera para que no ocupe tanto espacio */
+    h2#current-day-title {
+        font-size: 1.8rem;
+    }
+
+    /* 3. El reloj: lo hacemos más compacto */
+    .time-inputs {
+        justify-content: center; /* Centramos el reloj en móvil */
+    }
+
+    .time-val {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+
+    /* 4. Lista de tareas: permitimos que ocupe el alto necesario */
+    .scrollable-list {
+        max-height: none; /* Quitamos el límite de altura para que fluya mejor */
+        padding-right: 0;
+    }
+
+    /* 5. Tarjetas de tareas: ajustamos el espaciado interno */
+    .task-card {
+        flex-direction: row; /* Mantenemos horizontal, o usa column si es muy pequeño */
+        padding: 12px;
+    }
+
+    .time-tag {
+        min-width: 70px;
+        font-size: 0.85rem;
+        padding: 8px 5px;
+    }
+
+    .task-info {
+        padding-left: 12px;
+    }
+
+    .task-info strong {
+        font-size: 1rem;
+    }
+
+    /* 6. Widget lateral (ahora abajo): aseguramos que no se estire raro */
+    .widget {
+        padding: 15px;
+        order: -1; /* OPCIONAL: Esto pone el reloj ARRIBA de la lista en el cel */
+    }
+}
+
+/* Ajuste extra para pantallas muy pequeñas (iPhone SE / mini) */
+@media (max-width: 400px) {
+    .time-val {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+    
+    .time-tag {
+        min-width: 60px;
+        font-size: 0.75rem;
+    }
+}
