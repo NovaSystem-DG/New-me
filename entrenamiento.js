@@ -6,27 +6,27 @@ const rutina = [
     { nombre: "Sentadillas Suaves", info: "Lentas y no profundas. Solo para activar piernas.", tiempo: 60, foto: "assets/sentadilla.png" },
     { nombre: "Marcha o Saltos Suaves", info: "Levanta rodillas o salta suave. ¡Activa tu corazón!", tiempo: 60, foto: "assets/marcha.png" },
     
-    { nombre: "Descanso Preparatorio", info: "Toma agua, la rutina principal empieza ahora.", tiempo: 15, foto: "assets/descanso.png" },
+    { nombre: "Descanso Preparatorio", info: "Toma agua, la rutina principal empieza ahora.", tiempo: 15, foto: "assets/shh.jpg" },
 
     // --- RUTINA PRINCIPAL ---
     { nombre: "Sentadillas", info: "Serie 1 de 2 — 10 reps", tiempo: 45, foto: "assets/sentadilla.png" },
-    { nombre: "Descanso", info: "Suelta las piernas", tiempo: 30, foto: "assets/descanso.png" },
+    { nombre: "Descanso", info: "Suelta las piernas", tiempo: 30, foto: "assets/descanso18.jpg" },
     { nombre: "Sentadillas", info: "Serie 2 de 2 — 10 reps", tiempo: 45, foto: "assets/sentadilla.png" },
-    { nombre: "Descanso", info: "Prepárate para Hip Thrust", tiempo: 30, foto: "assets/descanso.png" },
+    { nombre: "Descanso", info: "Prepárate para Hip Thrust", tiempo: 30, foto: "assets/descanso11.jpg" },
     { nombre: "Hip Thrust", info: "Serie 1 de 2 — 12 reps", tiempo: 50, foto: "assets/hip-thrust.png" },
-    { nombre: "Descanso", info: "Mantén la tensión", tiempo: 30, foto: "assets/descanso2.jpg" },
+    { nombre: "Descanso", info: "Mantén la tensión", tiempo: 30, foto: "assets/descanso9.jpg" },
     { nombre: "Hip Thrust", info: "Serie 2 de 2 — 12 reps", tiempo: 50, foto: "assets/hip-thrust.png" },
-    { nombre: "Descanso", info: "Prepárate para Fire Hydrants", tiempo: 30, foto: "assets/descanso2.jpg" },
+    { nombre: "Descanso", info: "Prepárate para Fire Hydrants", tiempo: 30, foto: "assets/descanso17.jpg" },
     { nombre: "Fire Hydrants", info: "Serie 1 de 2 — 12 por pierna", tiempo: 60, foto: "assets/fire-hydrant.png" },
-    { nombre: "Descanso", info: "¡Ya casi!", tiempo: 30, foto: "assets/descanso3.jpg" },
+    { nombre: "Descanso", info: "¡Ya casi!", tiempo: 30, foto: "assets/descanso10.png" },
     { nombre: "Fire Hydrants", info: "Serie 2 de 2 — 12 por pierna", tiempo: 60, foto: "assets/fire-hydrant.png" },
-    { nombre: "Descanso", info: "Vamos a la zona abdominal", tiempo: 30, foto: "assets/descanso3.jpg" },
+    { nombre: "Descanso", info: "Vamos a la zona abdominal", tiempo: 30, foto: "assets/descanso7.jpg" },
     { nombre: "Russian Twist", info: "Serie 1 de 2 — 12 reps", tiempo: 45, foto: "assets/russian-twist.png" },
-    { nombre: "Descanso", info: "Respira profundo", tiempo: 30, foto: "assets/descanso4.jpg" },
+    { nombre: "Descanso", info: "Respira profundo", tiempo: 30, foto: "assets/descanso14.jpg" },
     { nombre: "Russian Twist", info: "Serie 2 de 2 — 12 reps", tiempo: 45, foto: "assets/russian-twist.png" },
     { nombre: "Descanso", info: "Último esfuerzo: ¡Plancha!", tiempo: 30, foto: "assets/descanso4.jpg" },
     { nombre: "Plancha", info: "Serie 1 de 2 — Mantén 15s", tiempo: 15, foto: "assets/plancha.png" },
-    { nombre: "Descanso", info: "Solo uno más", tiempo: 15, foto: "assets/descanso5.jpg" },
+    { nombre: "Descanso", info: "Solo uno más", tiempo: 15, foto: "assets/descanso13.png" },
     { nombre: "Plancha", info: "Serie 2 de 2 — Últimos 15s", tiempo: 15, foto: "assets/plancha.png" }
 ];
 
