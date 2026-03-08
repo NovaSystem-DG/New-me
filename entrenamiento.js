@@ -7,6 +7,7 @@ const rutina = [
     { nombre: "Marcha o Saltos Suaves", info: "Levanta rodillas o salta suave. ¡Activa tu corazón!", tiempo: 60, foto: "assets/marcha.png" },
     
     { nombre: "Descanso Preparatorio", info: "Toma agua, la rutina principal empieza ahora.", tiempo: 15, foto: "assets/shh.jpg" },
+    
 
     // --- RUTINA PRINCIPAL ---
     { nombre: "Sentadillas", info: "Serie 1 de 2 — 10 reps", tiempo: 45, foto: "assets/sentadilla.png" },
