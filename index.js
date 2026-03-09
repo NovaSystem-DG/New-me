@@ -929,162 +929,110 @@ setInterval(updateClock, 1000);
 setInterval(updateLayout, 30000); // Revisa cambios cada 30 segundos
 
 /* ============================================================
-   FOTOS
+    FOTOS Y CALENDARIO (CORREGIDO)
    ============================================================ */
 
 const calendarDays = document.getElementById("calendar-days");
 const monthYearText = document.getElementById("month-year");
 let selectedDay = null;
+let navDate = new Date(); // Única fecha de referencia para navegar
 
 function renderCalendar() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
+    // Mes y año que estamos visualizando
+    const viewYear = navDate.getFullYear();
+    const viewMonth = navDate.getMonth();
+    
+    // Fecha de hoy real para el resaltado
+    const today = new Date();
+    const dHoy = today.getDate();
+    const mHoy = today.getMonth();
+    const aHoy = today.getFullYear();
 
-  monthYearText.innerText = now.toLocaleDateString("es-ES", {
-    month: "long",
-    year: "numeric",
-  });
+    // Título del mes (ej: "marzo de 2026")
+    monthYearText.innerText = navDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
 
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
-  calendarDays.innerHTML = "";
+    calendarDays.innerHTML = '';
 
-  // Espacios en blanco
-  for (let i = 0; i < firstDay; i++) {
-    calendarDays.innerHTML += `<div></div>`;
-  }
+    // Espacios vacíos para el inicio del mes
+    for (let i = 0; i < firstDay; i++) {
+        calendarDays.innerHTML += `<div></div>`;
+    }
 
-  // Días del mes
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dateKey = `${year}-${month}-${d}`;
-    const hasPhoto = localStorage.getItem(dateKey) ? "day-has-photo" : "";
-    calendarDays.innerHTML += `<div class="calendar-day ${hasPhoto}" onclick="openModal('${dateKey}')">${d}</div>`;
-  }
+    // Dibujar los días
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dateKey = `${viewYear}-${viewMonth}-${d}`;
+        const hasPhoto = localStorage.getItem(dateKey) ? 'day-has-photo' : '';
+        
+        let isTodayClass = '';
+        if (d === dHoy && viewMonth === mHoy && viewYear === aHoy) {
+            isTodayClass = 'today';
+        }
+
+        calendarDays.innerHTML += `
+            <div class="calendar-day ${hasPhoto} ${isTodayClass}" onclick="openModal('${dateKey}')">
+                ${d}
+            </div>`;
+    }
+}
+
+// Esta función ahora sí funcionará porque navDate es global
+function changeMonth(offset) {
+    navDate.setMonth(navDate.getMonth() + offset);
+    renderCalendar();
 }
 
 function openModal(dateKey) {
-  selectedDay = dateKey;
-  document.getElementById('photo-modal').style.display = 'flex';
-  const savedPhoto = localStorage.getItem(dateKey);
-  const preview = document.getElementById('photo-preview');
-  const deleteBtn = document.getElementById('btn-delete');
+    selectedDay = dateKey;
+    const modal = document.getElementById('photo-modal');
+    modal.style.display = 'flex';
+    
+    const savedPhoto = localStorage.getItem(dateKey);
+    const preview = document.getElementById('photo-preview');
+    const deleteBtn = document.getElementById('btn-delete');
 
-  if (savedPhoto) {
-    preview.innerHTML = `<img src="${savedPhoto}" alt="Progreso">`;
-    deleteBtn.style.display = 'inline-block';
-  } else {
-    preview.innerHTML = `<p style="margin: 40px 0; color: #888;">No hay foto para este día.</p>`;
-    deleteBtn.style.display = 'none';
-  }
+    if (savedPhoto) {
+        preview.innerHTML = `<img src="${savedPhoto}" alt="Progreso" style="width:100%; border-radius:15px;">`;
+        deleteBtn.style.display = 'inline-block';
+    } else {
+        preview.innerHTML = `<p style="margin: 40px 0; color: #888;">No hay foto para este día.</p>`;
+        deleteBtn.style.display = 'none';
+    }
+}
+
+function closeModal() {
+    document.getElementById("photo-modal").style.display = "none";
 }
 
 function deletePhoto() {
-  if (confirm("¿Quieres eliminar la foto de este día?")) {
-    localStorage.removeItem(selectedDay); // Borra del almacenamiento
-    renderCalendar(); 
-    closeModal();     
-  }
-}
-
-// Lógica para guardar la foto
-document
-  .getElementById("upload-photo")
-  .addEventListener("change", function (e) {
-    const reader = new FileReader();
-    reader.onload = function () {
-      localStorage.setItem(selectedDay, reader.result);
-      function renderCalendar() {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth();
-    
-    // Creamos una fecha que represente exactamente el día de HOY
-    const hoyReal = new Date(); 
-    const diaHoy = hoyReal.getDate();
-    const mesHoy = hoyReal.getMonth();
-    const anioHoy = hoyReal.getFullYear();
-
-    monthYearText.innerText = now.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
-
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-    calendarDays.innerHTML = '';
-
-    for (let i = 0; i < firstDay; i++) {
-        calendarDays.innerHTML += `<div></div>`;
-    }
-
-    for (let d = 1; d <= daysInMonth; d++) {
-        const dateKey = `${currentYear}-${currentMonth}-${d}`;
-        const hasPhoto = localStorage.getItem(dateKey) ? 'day-has-photo' : '';
-        
-        // COMPARACIÓN TRIPLE: Día, Mes y Año deben coincidir
-        let isTodayClass = '';
-        if (d === diaHoy && currentMonth === mesHoy && currentYear === anioHoy) {
-            isTodayClass = 'today';
-        }
-
-        calendarDays.innerHTML += `
-            <div class="calendar-day ${hasPhoto} ${isTodayClass}" onclick="openModal('${dateKey}')">
-                ${d}
-            </div>`;
-    }
-}
-      openModal(selectedDay);
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  });
-
-function closeModal() {
-  document.getElementById("photo-modal").style.display = "none";
-}
-
-renderCalendar();
-function renderCalendar() {
-    const calendarDays = document.getElementById('calendar-days');
-    const monthYearText = document.getElementById('month-year');
-    
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth();
-    
-    // Fecha de hoy exacta para comparar
-    const hoy = new Date();
-    const diaHoy = hoy.getDate();
-    const mesHoy = hoy.getMonth();
-    const anioHoy = hoy.getFullYear();
-
-    monthYearText.innerText = now.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
-
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-    calendarDays.innerHTML = '';
-
-    // Espacios antes del día 1
-    for (let i = 0; i < firstDay; i++) {
-        calendarDays.innerHTML += `<div></div>`;
-    }
-
-    for (let d = 1; d <= daysInMonth; d++) {
-        const dateKey = `${currentYear}-${currentMonth}-${d}`;
-        const hasPhoto = localStorage.getItem(dateKey) ? 'day-has-photo' : '';
-        
-        // Verificación de hoy
-        let isTodayClass = '';
-        if (d === diaHoy && currentMonth === mesHoy && currentYear === anioHoy) {
-            isTodayClass = 'today';
-        }
-
-        calendarDays.innerHTML += `
-            <div class="calendar-day ${hasPhoto} ${isTodayClass}" onclick="openModal('${dateKey}')">
-                ${d}
-            </div>`;
+    if (confirm("¿Quieres eliminar la foto?")) {
+        localStorage.removeItem(selectedDay);
+        renderCalendar(); 
+        closeModal();     
     }
 }
 
-
+// Lógica de carga de foto
+document.getElementById("upload-photo").addEventListener("change", function (e) {
+    if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            try {
+                localStorage.setItem(selectedDay, event.target.result);
+                renderCalendar(); 
+                openModal(selectedDay); 
+                // Limpia el input para que permita subir la misma foto otra vez si se desea
+                e.target.value = ""; 
+            } catch (error) {
+                // El localStorage tiene un límite (aprox 5MB). 
+                // Si la foto es muy pesada, dará error.
+                alert("La imagen es muy pesada. Intenta con una más pequeña.");
+            }
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
+});
+// Inicializar al cargar la página
 document.addEventListener('DOMContentLoaded', renderCalendar);

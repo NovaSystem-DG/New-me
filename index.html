@@ -77,12 +77,21 @@
           </div>
         </div>
 
-        <div class="widget calendar-widget">
-          <h3>Calendario de Avances</h3>
-          <div class="calendar-header">
-            <span id="month-year"></span>
-          </div>
-          <div class="calendar-grid" id="calendar-days"></div>
+       <div class="widget calendar-widget">
+    <h3>Calendario de Avances</h3>
+    <div class="calendar-header">
+        <button onclick="changeMonth(-1)" class="btn-nav"><</button>
+        <span id="month-year"></span>
+        <button onclick="changeMonth(1)" class="btn-nav">></button>
+    </div>
+
+    <div class="calendar-weekdays">
+        <div>Do</div><div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sá</div>
+    </div>
+
+    <div id="calendar-days" class="calendar-grid"></div>
+
+    </div>
 
           <div id="photo-modal" class="modal">
             <div class="modal-content">
