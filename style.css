@@ -272,7 +272,7 @@ h2#current-day-title {
 
 .duration-pill {
     font-size: 0.7em;
-    background: #d1e9f5;
+    background: hsl(200, 64%, 89%);
     padding: 2px 8px;
     border-radius: 10px;
     margin-left: 10px;

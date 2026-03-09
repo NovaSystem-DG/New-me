@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrenamiento</title>
     <link rel="icon" type="image/png" href="assets/trap.png">
-    <link rel="stylesheet" href="style.css"> <style>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
         .workout-container {
             max-width: 500px;
             margin: 50px auto;
@@ -36,7 +37,40 @@
         
         .controls { display: flex; gap: 10px; justify-content: center; }
         .btn-finish { background: #ff4757; color: white; border: none; padding: 15px 30px; border-radius: 12px; cursor: pointer; }
+    
+
+
+    body {
+        padding-bottom: 50px; /* Espacio extra para que los botones no peguen abajo */
+        background-color: var(--bg-actual); /* Mantiene el color dinámico */
+    }
+
+    .workout-container {
+        max-width: 500px;
+        margin: 20px auto; /* Reducimos el margen superior para que quepa mejor */
+        text-align: center;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.9); /* Un fondo para que se vea como tarjeta */
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    /* Imagen más flexible para que no empuje todo hacia abajo */
+    .exercise-image {
+        width: 100%;
+        max-height: 200px; /* Bajamos un poco el alto para que suban los botones */
+        background: #eee;
+        border-radius: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+</style>
     </style>
+
 </head>
 <body>
     <div class="workout-container">

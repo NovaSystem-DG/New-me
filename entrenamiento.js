@@ -46,7 +46,7 @@ function iniciarEjercicio(ex) {
     clearInterval(cronometro);
     
     // Reset de color por si venía de verde
-    timerDisplay.style.color = "white"; 
+    timerDisplay.style.color = "b"; 
     
     nameDisplay.textContent = ex.nombre;
     infoDisplay.textContent = ex.info;
