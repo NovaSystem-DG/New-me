@@ -672,9 +672,9 @@ h2#current-day-title {
 #month-year {
     /* Usamos las dos variables que tu JS ya cambia automáticamente */
     background: linear-gradient(45deg, var(--reloj-actual), var(--reloj-sec));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
     font-weight: 800;
     font-size: 1.2rem;
     text-transform: capitalize;
