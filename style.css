@@ -22,37 +22,41 @@
    2. ESTILOS DE CUERPO Y ESTRUCTURA
    ========================================= */
 
-   body, html {
-    overflow-x: hidden; /* Bloquea el movimiento lateral */
-    width: 100%;
-}
+  /* =========================================
+   2. ESTILOS DE CUERPO Y ESTRUCTURA
+   ========================================= */
 
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* Bloquea el scroll de TODA la página */
+}
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--bg-actual); /* Cambia por JS */
-    transition: background-color 0.8s ease; /* Transición suave */
+    background-color: var(--bg-actual);
+    transition: background-color 0.8s ease;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
+    align-items: flex-start; /* Alinea al inicio para que no se corte arriba */
+    padding-top: 20px;
 }
 
 .main-container {
     display: grid;
     grid-template-columns: 1fr 350px;
     gap: 20px;
-    width: 90%;
+    width: 95%;
     max-width: 1100px;
-    padding: 40px;
+    max-height: 95vh; /* El cuadro nunca será más alto que la pantalla */
+    padding: 30px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    border: 1px solid rgba(255,255,255,0.3);
-    backdrop-filter: blur(5px);
-    z-index: 1;
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
 }
-
 /* =========================================
    3. CABECERA Y FECHA
    ========================================= */
@@ -165,36 +169,69 @@ h2#current-day-title {
     border-color: var(--reloj-actual);
 }
 
-/* =========================================
-   5. LISTA DE TAREAS Y SCROLL
-   ========================================= */
-.scrollable-list {
-    max-height: 65vh;
-    overflow-y: auto;
+.widgets-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%; 
+    max-height: 85vh; /* Altura máxima para que aparezca el scroll */
+    overflow-y: auto;  /* ¡ESTO ACTIVA EL SCROLL EN EL PANEL DERECHO! */
     padding-right: 10px;
 }
 
+/* Personalizamos el scroll para que sea delgadito */
+.widgets-section::-webkit-scrollbar {
+    width: 5px;
+}
+
+.widgets-section::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.widget {
+    background: var(--card-bg);
+    border-radius: 28px;
+    padding: 24px;
+    flex-shrink: 0; /* Evita que los widgets se aplasten */
+}
+
+
+
+/* =========================================
+   5. LISTA DE TAREAS Y SCROLL (UNIFICADO)
+   ========================================= */
+.scrollable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 15px 10px 0;
+    box-sizing: border-box;
+    /* Esto evita que la página crezca infinitamente */
+    max-height: 70vh; 
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Personalización del Scrollbar */
 .scrollable-list::-webkit-scrollbar {
     width: 6px;
 }
-
 .scrollable-list::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 10px;
 }
 
 .task-card {
-    width: 100%; /* Ocupa todo el ancho disponible del padre */
+    width: 100%;
     display: flex;
     align-items: center;
     background: #fff;
     border-radius: 20px !important;
     padding: 15px;
-    box-sizing: border-box; /* Fundamental: incluye el padding y borde en el ancho total */
-    position: relative;
-    border: 2px solid transparent; /* Reserva el espacio para cuando se active */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden; /* Corta cualquier cosa que quiera generar scroll interno */
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    transition: transform 0.3s ease;
 }
 
 /* Ajuste específico para la Tarea Activa */
@@ -260,6 +297,8 @@ h2#current-day-title {
     vertical-align: middle;
 }
 
+
+
 /* Tarea Activa (Resaltado dinámico) */
 
 /* =========================================
@@ -293,10 +332,22 @@ h2#current-day-title {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espacio uniforme entre tarjetas */
+    gap: 15px;
     padding: 10px;
     box-sizing: border-box;
-    overflow-x: hidden; /* Elimina cualquier scroll lateral accidental */
+    /* ESTO ES LO IMPORTANTE: */
+    max-height: 60vh; /* Limita la altura al 60% de la pantalla */
+    overflow-y: auto;  /* Si hay muchas tareas, aparece el scroll */
+    overflow-x: hidden; /* Evita que se mueva hacia los lados */
+}
+
+#schedule-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+#schedule-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 /* Si tenías alguna regla que quitaba bordes al primero, la anulamos */
@@ -345,67 +396,34 @@ h2#current-day-title {
     transform: translateY(-2px);
     filter: brightness(1.1);
 }
-
 /* =========================================
    7. DISEÑO RESPONSIVE (CELULARES)
    ========================================= */
-
 @media (max-width: 850px) {
-    /* 1. Cambiamos el grid a una sola columna */
+    body {
+        align-items: flex-start; /* Importante: alinea arriba para que no se corte */
+        padding: 20px 0;
+        overflow-y: auto; /* Permite scroll general en móvil si es necesario */
+    }
+
     .main-container {
         grid-template-columns: 1fr;
-        width: 95%;
-        padding: 15px;
-        gap: 15px;
+        width: 92%;
+        padding: 20px;
+        margin: 0 auto;
     }
 
-    /* 2. Ajustamos la cabecera para que no ocupe tanto espacio */
-    h2#current-day-title {
-        font-size: 1.8rem;
-    }
-
-    /* 3. El reloj: lo hacemos más compacto */
-    .time-inputs {
-        justify-content: center; /* Centramos el reloj en móvil */
-    }
-
-    .time-val {
-        width: 55px;
-        height: 55px;
-        font-size: 22px;
-    }
-
-    /* 4. Lista de tareas: permitimos que ocupe el alto necesario */
     .scrollable-list {
-        max-height: none; /* Quitamos el límite de altura para que fluya mejor */
+        max-height: none; /* En móvil dejamos que la lista fluya */
         padding-right: 0;
     }
 
-    /* 5. Tarjetas de tareas: ajustamos el espaciado interno */
-    .task-card {
-        flex-direction: row; /* Mantenemos horizontal, o usa column si es muy pequeño */
-        padding: 12px;
-    }
-
-    .time-tag {
-        min-width: 70px;
-        font-size: 0.85rem;
-        padding: 8px 5px;
-    }
-
-    .task-info {
-        padding-left: 12px;
-    }
-
-    .task-info strong {
-        font-size: 1rem;
-    }
-
-    /* 6. Widget lateral (ahora abajo): aseguramos que no se estire raro */
     .widget {
-        padding: 15px;
-        order: -1; /* OPCIONAL: Esto pone el reloj ARRIBA de la lista en el cel */
+        order: -1; /* Reloj arriba */
+        margin-bottom: 10px;
     }
+
+    h2#current-day-title { font-size: 1.8rem; }
 }
 
 
