@@ -10,7 +10,7 @@ function updateClock() {
   hours = hours % 12;
   hours = hours ? hours : 12;
 
-  // Formatear con ceros (01, 02, etc.)
+  // Formatear con ceros
   const strHours = hours.toString().padStart(2, "0");
   const strMinutes = minutes.toString().padStart(2, "0");
   const strSeconds = seconds.toString().padStart(2, "0");
@@ -38,16 +38,6 @@ setInterval(updateClock, 1000);
 updateClock();
 
 //HORARIOS
-
-/* ============================================================
-   1. DATOS DEL HORARIO (Se mantienen igual)
-   ============================================================ */
-/* ============================================================
-   1. DATOS DEL HORARIO (ORGANIZADOS POR DÍA)
-   ============================================================ */
-/* ============================================================
-   1. DATOS DEL HORARIO (SEMANA COMPLETA)
-   ============================================================ */
 const fullSchedule = {
   // 0: DOMINGO
   0: {
@@ -694,30 +684,67 @@ const fullSchedule = {
       },
     ],
   },
-  // 6: SÁBADO
-  // 6: SÁBADO (Versión con bloques más cortos)
-    6: {
-        morning: [
-            { start: "08:00", end: "09:30", task: "Despertar sin prisa", desc: "Disfruta de la mañana, no hay afán hoy." },
-            { start: "09:30", end: "11:00", task: "Actividades personales", desc: "Tiempo para ti: skin care, lectura o hobbies." },
-            { start: "11:00", end: "13:00", task: "Tiempo libre", desc: "Momento para relajarse o adelantar algo personal." }
-        ],
-        afternoon: [
-            { start: "13:00", end: "15:30", task: "Almuerzo y Relax", desc: "Disfruta de la comida sin afanes." },
-            { start: "15:30", end: "18:00", task: "Salir o Hobbies", desc: "Momento ideal para salir a caminar, ver a alguien o practicar un hobby." },
-            { start: "18:00", end: "19:00", task: "Descanso tranquilo", desc: "Bajando el ritmo para la noche." }
-        ],
-        evening: [
-            { start: "19:00", end: "20:00", task: "Tiempo libre", desc: "Relajación pre-cena." },
-            { start: "20:00", end: "21:00", task: "Cena", desc: "Cena de sábado." },
-            { start: "21:00", end: "23:59", task: "Cine / Amigas", desc: "Series, películas o hablar con tus amigas. ¡Disfruta!" }
-        ]
-    }
+
+  6: {
+    morning: [
+      {
+        start: "08:00",
+        end: "09:30",
+        task: "Despertar sin prisa",
+        desc: "Disfruta de la mañana, no hay afán hoy.",
+      },
+      {
+        start: "09:30",
+        end: "11:00",
+        task: "Actividades personales",
+        desc: "Tiempo para ti: skin care, lectura o hobbies.",
+      },
+      {
+        start: "11:00",
+        end: "13:00",
+        task: "Tiempo libre",
+        desc: "Momento para relajarse o adelantar algo personal.",
+      },
+    ],
+    afternoon: [
+      {
+        start: "13:00",
+        end: "15:30",
+        task: "Almuerzo y Relax",
+        desc: "Disfruta de la comida sin afanes.",
+      },
+      {
+        start: "15:30",
+        end: "18:00",
+        task: "Salir o Hobbies",
+        desc: "Momento ideal para salir a caminar, ver a alguien o practicar un hobby.",
+      },
+      {
+        start: "18:00",
+        end: "19:00",
+        task: "Descanso tranquilo",
+        desc: "Bajando el ritmo para la noche.",
+      },
+    ],
+    evening: [
+      {
+        start: "19:00",
+        end: "20:00",
+        task: "Tiempo libre",
+        desc: "Relajación pre-cena.",
+      },
+      { start: "20:00", end: "21:00", task: "Cena", desc: "Cena de sábado." },
+      {
+        start: "21:00",
+        end: "23:59",
+        task: "Cine / Amigas",
+        desc: "Series, películas o hablar con tus amigas. ¡Disfruta!",
+      },
+    ],
+  },
 };
 
-/* ============================================================
-   2. FUNCIONES DE LÓGICA
-   ============================================================ */
+/*2. FUNCIONES DE LÓGICA */
 function calculateDuration(start, end) {
   const [h1, m1] = start.split(":").map(Number);
   const [h2, m2] = end.split(":").map(Number);
@@ -851,29 +878,29 @@ function updateLayout() {
 }
 
 function highlightCurrentTask() {
-    const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes();
+  const now = new Date();
+  const currentTime = now.getHours() * 60 + now.getMinutes();
 
-    document.querySelectorAll(".task-card").forEach((card) => {
-        const startElem = card.querySelector(".time-start");
-        const endElem = card.querySelector(".time-end");
+  document.querySelectorAll(".task-card").forEach((card) => {
+    const startElem = card.querySelector(".time-start");
+    const endElem = card.querySelector(".time-end");
 
-        if (startElem && endElem) {
-            const [hS, mS] = startElem.textContent.split(":").map(Number);
-            const [hE, mE] = endElem.textContent.split(":").map(Number);
+    if (startElem && endElem) {
+      const [hS, mS] = startElem.textContent.split(":").map(Number);
+      const [hE, mE] = endElem.textContent.split(":").map(Number);
 
-            const startTime = hS * 60 + mS;
-            let endTime = hE * 60 + mE;
-            if (endTime < startTime) endTime += 24 * 60; 
+      const startTime = hS * 60 + mS;
+      let endTime = hE * 60 + mE;
+      if (endTime < startTime) endTime += 24 * 60;
 
-            if (currentTime >= startTime && currentTime < endTime) {
-                // ESTO aplica el borde de color y el resalto a TODA la tarjeta
-                card.classList.add("active-now");
-            } else {
-                card.classList.remove("active-now");
-            }
-        }
-    });
+      if (currentTime >= startTime && currentTime < endTime) {
+        // ESTO aplica el borde de color y el resalto a TODA la tarjeta
+        card.classList.add("active-now");
+      } else {
+        card.classList.remove("active-now");
+      }
+    }
+  });
 }
 
 function createStars() {
@@ -893,9 +920,6 @@ function createStars() {
   }
 }
 
-/* ============================================================
-   3. INICIO
-   ============================================================ */
 updateDate();
 createStars();
 updateClock();
@@ -904,3 +928,163 @@ updateLayout();
 setInterval(updateClock, 1000);
 setInterval(updateLayout, 30000); // Revisa cambios cada 30 segundos
 
+/* ============================================================
+   FOTOS
+   ============================================================ */
+
+const calendarDays = document.getElementById("calendar-days");
+const monthYearText = document.getElementById("month-year");
+let selectedDay = null;
+
+function renderCalendar() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+
+  monthYearText.innerText = now.toLocaleDateString("es-ES", {
+    month: "long",
+    year: "numeric",
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  calendarDays.innerHTML = "";
+
+  // Espacios en blanco
+  for (let i = 0; i < firstDay; i++) {
+    calendarDays.innerHTML += `<div></div>`;
+  }
+
+  // Días del mes
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateKey = `${year}-${month}-${d}`;
+    const hasPhoto = localStorage.getItem(dateKey) ? "day-has-photo" : "";
+    calendarDays.innerHTML += `<div class="calendar-day ${hasPhoto}" onclick="openModal('${dateKey}')">${d}</div>`;
+  }
+}
+
+function openModal(dateKey) {
+  selectedDay = dateKey;
+  document.getElementById('photo-modal').style.display = 'flex';
+  const savedPhoto = localStorage.getItem(dateKey);
+  const preview = document.getElementById('photo-preview');
+  const deleteBtn = document.getElementById('btn-delete');
+
+  if (savedPhoto) {
+    preview.innerHTML = `<img src="${savedPhoto}" alt="Progreso">`;
+    deleteBtn.style.display = 'inline-block';
+  } else {
+    preview.innerHTML = `<p style="margin: 40px 0; color: #888;">No hay foto para este día.</p>`;
+    deleteBtn.style.display = 'none';
+  }
+}
+
+function deletePhoto() {
+  if (confirm("¿Quieres eliminar la foto de este día?")) {
+    localStorage.removeItem(selectedDay); // Borra del almacenamiento
+    renderCalendar(); 
+    closeModal();     
+  }
+}
+
+// Lógica para guardar la foto
+document
+  .getElementById("upload-photo")
+  .addEventListener("change", function (e) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      localStorage.setItem(selectedDay, reader.result);
+      function renderCalendar() {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+    
+    // Creamos una fecha que represente exactamente el día de HOY
+    const hoyReal = new Date(); 
+    const diaHoy = hoyReal.getDate();
+    const mesHoy = hoyReal.getMonth();
+    const anioHoy = hoyReal.getFullYear();
+
+    monthYearText.innerText = now.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    calendarDays.innerHTML = '';
+
+    for (let i = 0; i < firstDay; i++) {
+        calendarDays.innerHTML += `<div></div>`;
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dateKey = `${currentYear}-${currentMonth}-${d}`;
+        const hasPhoto = localStorage.getItem(dateKey) ? 'day-has-photo' : '';
+        
+        // COMPARACIÓN TRIPLE: Día, Mes y Año deben coincidir
+        let isTodayClass = '';
+        if (d === diaHoy && currentMonth === mesHoy && currentYear === anioHoy) {
+            isTodayClass = 'today';
+        }
+
+        calendarDays.innerHTML += `
+            <div class="calendar-day ${hasPhoto} ${isTodayClass}" onclick="openModal('${dateKey}')">
+                ${d}
+            </div>`;
+    }
+}
+      openModal(selectedDay);
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  });
+
+function closeModal() {
+  document.getElementById("photo-modal").style.display = "none";
+}
+
+renderCalendar();
+function renderCalendar() {
+    const calendarDays = document.getElementById('calendar-days');
+    const monthYearText = document.getElementById('month-year');
+    
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+    
+    // Fecha de hoy exacta para comparar
+    const hoy = new Date();
+    const diaHoy = hoy.getDate();
+    const mesHoy = hoy.getMonth();
+    const anioHoy = hoy.getFullYear();
+
+    monthYearText.innerText = now.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    calendarDays.innerHTML = '';
+
+    // Espacios antes del día 1
+    for (let i = 0; i < firstDay; i++) {
+        calendarDays.innerHTML += `<div></div>`;
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dateKey = `${currentYear}-${currentMonth}-${d}`;
+        const hasPhoto = localStorage.getItem(dateKey) ? 'day-has-photo' : '';
+        
+        // Verificación de hoy
+        let isTodayClass = '';
+        if (d === diaHoy && currentMonth === mesHoy && currentYear === anioHoy) {
+            isTodayClass = 'today';
+        }
+
+        calendarDays.innerHTML += `
+            <div class="calendar-day ${hasPhoto} ${isTodayClass}" onclick="openModal('${dateKey}')">
+                ${d}
+            </div>`;
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', renderCalendar);

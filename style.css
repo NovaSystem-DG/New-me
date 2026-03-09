@@ -1,6 +1,4 @@
-/* =========================================
-   1. FUENTES Y VARIABLES GLOBALES
-   ========================================= */
+/*! 1. FUENTES Y VARIABLES GLOBALES*/
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
 :root {
@@ -18,13 +16,7 @@
     --sunset-red: #e94e33;
 }
 
-/* =========================================
-   2. ESTILOS DE CUERPO Y ESTRUCTURA
-   ========================================= */
-
-  /* =========================================
-   2. ESTILOS DE CUERPO Y ESTRUCTURA
-   ========================================= */
+/*! 2. ESTILOS DE CUERPO Y ESTRUCTURA*/
 
 html, body {
     margin: 0;
@@ -57,9 +49,7 @@ body {
     backdrop-filter: blur(10px);
     box-sizing: border-box;
 }
-/* =========================================
-   3. CABECERA Y FECHA
-   ========================================= */
+/*! 3. CABECERA Y FECHA */
 .header-main-card {
     display: flex;
     flex-direction: column;
@@ -97,9 +87,7 @@ h2#current-day-title {
     transition: background 0.5s ease;
 }
 
-/* =========================================
-   4. RELOJ (WIDGET)
-   ========================================= */
+/*! 4. RELOJ (WIDGET) */
 .widget {
     background: var(--card-bg);
     border-radius: 28px;
@@ -114,12 +102,12 @@ h2#current-day-title {
     margin-top: 15px;
 }
 
-/* Bloques con número (Mantenemos fondo y color blanco) */
+
 .time-val {
     font-family: 'Courier New', Courier, monospace;
     width: 65px;
     height: 65px;
-    background-color: var(--reloj-actual) !important; /* Dinámico por JS */
+    background-color: var(--reloj-actual) !important; 
     border-radius: 12px;
     font-size: 28px;
     font-weight: bold;
@@ -141,7 +129,7 @@ h2#current-day-title {
     transition: color 0.5s ease;
 }
 
-/* Indicadores AM/PM */
+/*? AM/PM */
 .am-pm {
     display: flex;
     flex-direction: column;
@@ -179,7 +167,7 @@ h2#current-day-title {
     padding-right: 10px;
 }
 
-/* Personalizamos el scroll para que sea delgadito */
+
 .widgets-section::-webkit-scrollbar {
     width: 5px;
 }
@@ -193,14 +181,13 @@ h2#current-day-title {
     background: var(--card-bg);
     border-radius: 28px;
     padding: 24px;
-    flex-shrink: 0; /* Evita que los widgets se aplasten */
+    flex-shrink: 0; 
 }
 
 
 
-/* =========================================
-   5. LISTA DE TAREAS Y SCROLL (UNIFICADO)
-   ========================================= */
+/*! 5. LISTA DE TAREAS Y SCROLL (UNIFICADO)*/
+
 .scrollable-list {
     display: flex;
     flex-direction: column;
@@ -213,7 +200,7 @@ h2#current-day-title {
     overflow-x: hidden;
 }
 
-/* Personalización del Scrollbar */
+
 .scrollable-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -234,7 +221,6 @@ h2#current-day-title {
     transition: transform 0.3s ease;
 }
 
-/* Ajuste específico para la Tarea Activa */
 .task-card.active-now {
     border-color: var(--reloj-actual) !important;
     background-color: #fff;
@@ -242,14 +228,9 @@ h2#current-day-title {
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-
-
-
-/* Evita que el texto cause scrolls extraños */
-
 .task-info {
-    flex: 1; /* Ocupa el resto del espacio */
-    padding-left: 20px; /* <--- Esto separa el texto del cuadro de las horas */
+    flex: 1; 
+    padding-left: 20px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -261,7 +242,8 @@ h2#current-day-title {
     line-height: 1.4;
     font-size: 0.95rem;
 }
-/* Asegurar que el indicador lateral de la tarea activa resalte */
+
+
 .task-card.active-now .time-tag {
     background: var(--reloj-actual);
     color: white;
@@ -298,12 +280,7 @@ h2#current-day-title {
 }
 
 
-
-/* Tarea Activa (Resaltado dinámico) */
-
-/* =========================================
-   6. ESTRELLAS Y EFECTOS
-   ========================================= */
+/*! 6. ESTRELLAS Y EFECTOS */
 #stars-container {
     position: fixed;
     top: 0;
@@ -335,10 +312,9 @@ h2#current-day-title {
     gap: 15px;
     padding: 10px;
     box-sizing: border-box;
-    /* ESTO ES LO IMPORTANTE: */
-    max-height: 60vh; /* Limita la altura al 60% de la pantalla */
-    overflow-y: auto;  /* Si hay muchas tareas, aparece el scroll */
-    overflow-x: hidden; /* Evita que se mueva hacia los lados */
+    max-height: 60vh; 
+    overflow-y: auto;  
+    overflow-x: hidden;
 }
 
 #schedule-container::-webkit-scrollbar {
@@ -350,7 +326,7 @@ h2#current-day-title {
     border-radius: 10px;
 }
 
-/* Si tenías alguna regla que quitaba bordes al primero, la anulamos */
+
 #schedule-container .task-card:first-child {
     border-top-left-radius: 20px !important;
     border-top-right-radius: 20px !important;
@@ -381,7 +357,7 @@ h2#current-day-title {
 }
 
 .btn-primary {
-    background-color: var(--reloj-actual); /* Se adapta al color del día/tarde/noche */
+    background-color: var(--reloj-actual); 
     color: white;
     border: none;
     padding: 12px;
@@ -396,34 +372,62 @@ h2#current-day-title {
     transform: translateY(-2px);
     filter: brightness(1.1);
 }
-/* =========================================
-   7. DISEÑO RESPONSIVE (CELULARES)
-   ========================================= */
+
 @media (max-width: 850px) {
-    body {
-        align-items: flex-start; /* Importante: alinea arriba para que no se corte */
-        padding: 20px 0;
-        overflow-y: auto; /* Permite scroll general en móvil si es necesario */
+    html, body {
+        overflow-y: auto !important;
+        height: auto !important;
+        min-height: 100vh;
     }
+
+    body {
+        display: block; 
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
 
     .main-container {
-        grid-template-columns: 1fr;
-        width: 92%;
+        display: flex;
+        flex-direction: column; 
+        width: 100%;
+        max-width: none;
+        max-height: none; 
         padding: 20px;
-        margin: 0 auto;
+        margin: 0 auto; 
+        gap: 25px;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255,255,255,0.3);
     }
 
-    .scrollable-list {
-        max-height: none; /* En móvil dejamos que la lista fluya */
+   
+    .tasks-section {
+        order: 1; 
+        width: 100%;
+    }
+
+    .widgets-section {
+        order: 2; /* Segundo en aparecer */
+        max-height: none !important;
+        overflow: visible !important;
         padding-right: 0;
     }
 
-    .widget {
-        order: -1; /* Reloj arriba */
-        margin-bottom: 10px;
+    .scrollable-list {
+        max-height: 65vh; 
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
 
-    h2#current-day-title { font-size: 1.8rem; }
+    .time-inputs {
+        justify-content: center;
+    }
 }
 
 
@@ -439,3 +443,134 @@ h2#current-day-title {
         font-size: 0.75rem;
     }
 }
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    transition: 0.3s;
+}
+
+.calendar-day:hover {
+    background: var(--reloj-actual);
+    color: white;
+}
+
+
+.day-has-photo {
+    border: 2px solid #feb47b; 
+    font-weight: bold;
+}
+
+
+
+
+/* --- MODAL ESTILIZADO Y COMPACTO --- */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); 
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); 
+}
+
+.modal-content {
+    background: #fdfbff; 
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 300px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+
+#photo-preview img {
+    width: 100%;
+    height: 180px; 
+    object-fit: cover; 
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+
+.modal-content .btn-primary {
+    background-color: var(--reloj-actual); 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px;
+    font-weight: bold;
+    width: auto;
+}
+
+.modal-content button:hover {
+    filter: brightness(1.1);
+}
+
+.modal-content {
+    background: #fdfbff;
+    padding: 25px;
+    border-radius: 24px;
+    text-align: center;
+    width: 95%;
+    max-width: 450px; 
+}
+
+#photo-preview img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain; 
+    border-radius: 15px;
+    background: #eee;
+    margin-bottom: 20px;
+}
+
+
+.btn-delete {
+    background-color: #ff5f5f; 
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-close {
+    background-color: #d1d1d1; 
+    color: #444;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* --- ESTILO ÚNICO PARA EL DÍA ACTUAL --- */
+.calendar-day.today {
+    background-color: #6bcef9 !important; /* Negro profundo para resaltar sí o sí */
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    border: 2px solid #ffffff !important;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 10;
+}
+

@@ -1,78 +1,124 @@
 <!doctype html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New year New me</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="assets/a1.png" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New year New me</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="assets/a1.png">
-</head>
+  <body>
+    <div id="stars-container"></div>
 
-<body>
-  <div id="stars-container"></div>
-
-  <div class="main-container">
-    <section class="tasks-section">
-      <div class="header-main-card">
-        <div class="date-info">
-          <h2 id="current-day-title">Lunes</h2>
-          <p id="current-full-date" class="date-subtitle">7 de marzo, 2026</p>
-        </div>
-        <div class="time-phase-badge" id="phase-badge">Mañana</div>
-      </div>
-
-      <div id="schedule-container" class="scrollable-list"></div>
-    </section>
-
-    <aside class="widgets-section">
-      <div class="widget time-picker">
-        <p class="label">Hora del sistema</p>
-        <div class="time-inputs">
-          <div class="time-box">
-            <div id="hour-display" class="time-val">00</div>
-            <span>Hrs</span>
+    <div class="main-container">
+      <section class="tasks-section">
+        <div class="header-main-card">
+          <div class="date-info">
+            <h2 id="current-day-title">Lunes</h2>
+            <p id="current-full-date" class="date-subtitle">7 de marzo, 2026</p>
           </div>
-          <div class="separator">:</div>
-          <div class="time-box">
-            <div id="minute-display" class="time-val">00</div>
-            <span>Min</span>
+          <div class="time-phase-badge" id="phase-badge">Mañana</div>
+        </div>
+
+        <div id="schedule-container" class="scrollable-list"></div>
+      </section>
+
+      <aside class="widgets-section">
+        <div class="widget time-picker">
+          <p class="label">Hora del sistema</p>
+          <div class="time-inputs">
+            <div class="time-box">
+              <div id="hour-display" class="time-val">00</div>
+              <span>Hrs</span>
+            </div>
+            <div class="separator">:</div>
+            <div class="time-box">
+              <div id="minute-display" class="time-val">00</div>
+              <span>Min</span>
+            </div>
+            <div class="separator">:</div>
+            <div class="time-box">
+              <div id="second-display" class="time-val sec">00</div>
+              <span>Seg</span>
+            </div>
+            <div class="am-pm">
+              <button id="am-indicator">AM</button>
+              <button id="pm-indicator">PM</button>
+            </div>
           </div>
-          <div class="separator">:</div>
-          <div class="time-box">
-            <div id="second-display" class="time-val sec">00</div>
-            <span>Seg</span>
-          </div>
-          <div class="am-pm">
-            <button id="am-indicator">AM</button>
-            <button id="pm-indicator">PM</button>
+          <div class="widget-footer">
+            <span class="material-icons">timer</span>
+            <span class="sync-text">Sincronizado con el sistema</span>
           </div>
         </div>
-        <div class="widget-footer">
-          <span class="material-icons">timer</span>
-          <span class="sync-text">Sincronizado con el sistema</span>
+
+        <div class="widget dialog-card">
+          <div class="exercise-panel">
+            <h3>Rutina Diaria (15 min)</h3>
+            <ul class="exercise-list">
+              <li><strong>Sentadillas:</strong> 2 × 10</li>
+              <li><strong>Hip thrust:</strong> 2 × 12</li>
+              <li><strong>Fire hydrants:</strong> 2 × 12 (p/p)</li>
+              <li><strong>Russian twist:</strong> 2 × 12</li>
+              <li><strong>Plancha:</strong> 2 × 15s</li>
+            </ul>
+            <button
+              id="start-workout"
+              class="btn-primary"
+              onclick="window.location.href = 'entrenamiento.html'"
+            >
+              Comenzar Entrenamiento
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div class="widget dialog-card">
-        <div class="exercise-panel">
-          <h3>Rutina Diaria (15 min)</h3>
-          <ul class="exercise-list">
-            <li><strong>Sentadillas:</strong> 2 × 10</li>
-            <li><strong>Hip thrust:</strong> 2 × 12</li>
-            <li><strong>Fire hydrants:</strong> 2 × 12 (p/p)</li>
-            <li><strong>Russian twist:</strong> 2 × 12</li>
-            <li><strong>Plancha:</strong> 2 × 15s</li>
-          </ul>
-          <button id="start-workout" class="btn-primary" onclick="window.location.href ='entrenamiento.html'"> Comenzar
-            Entrenamiento </button>
+        <div class="widget calendar-widget">
+          <h3>Calendario de Avances</h3>
+          <div class="calendar-header">
+            <span id="month-year"></span>
+          </div>
+          <div class="calendar-grid" id="calendar-days"></div>
+
+          <div id="photo-modal" class="modal">
+            <div class="modal-content">
+              <h4 id="selected-date-text" style="margin-top: 0; color: #333">
+                Día Seleccionado
+              </h4>
+              <div id="photo-preview"></div>
+              <div class="modal-footer">
+                <input
+                  type="file"
+                  id="upload-photo"
+                  accept="image/*"
+                  style="display: none"
+                />
+                <button
+                  class="btn-primary"
+                  onclick="document.getElementById('upload-photo').click()"
+                >
+                  Subir Avance
+                </button>
+                <button
+                  id="btn-delete"
+                  class="btn-delete"
+                  onclick="deletePhoto()"
+                  style="display: none"
+                >
+                  Eliminar Foto
+                </button>
+                <button class="btn-close" onclick="closeModal()">Cerrar</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </aside>
-  </div>
+      </aside>
+    </div>
 
-  <script src="index.js"></script>
-</body>
-
+    <script src="index.js"></script>
+  </body>
 </html>
