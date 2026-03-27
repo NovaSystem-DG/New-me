@@ -1,15 +1,14 @@
 const rutina = [
-    // --- CALENTAMIENTO (5 MINUTOS) ---
-    { nombre: "Movilidad de Cuello", info: "Gira lento a derecha e izquierda. Sin movimientos bruscos.", tiempo: 30, foto: "assets/cuello.png" },
-    { nombre: "Rotación de Hombros", info: "Gira hacia adelante y luego hacia atrás. Mejora tu postura.", tiempo: 30, foto: "assets/hombros.png" },
-    { nombre: "Rotación de Cadera", info: "Círculos amplios. Prepara tus glúteos y cintura.", tiempo: 30, foto: "assets/cadera.png" },
-    { nombre: "Sentadillas Suaves", info: "Lentas y no profundas. Solo para activar piernas.", tiempo: 60, foto: "assets/sentadilla.png" },
-    { nombre: "Marcha o Saltos Suaves", info: "Levanta rodillas o salta suave. ¡Activa tu corazón!", tiempo: 60, foto: "assets/carrera.png" },
     
-    { nombre: "Descanso Preparatorio", info: "Toma agua, la rutina principal empieza ahora.", tiempo: 15, foto: "assets/shh.jpg" },
+    { nombre: "Movilidad de Cuello", info: "Descuellate", tiempo: 30, foto: "assets/cuello.png" },
+    { nombre: "Rotación de Hombros", info: "Se rota de adelante hacia atras", tiempo: 30, foto: "assets/hombros.png" },
+    { nombre: "Rotación de Cadera", info: "Hacer circulitos con la cintura", tiempo: 30, foto: "assets/cadera.png" },
+    { nombre: "Sentadillas Suaves", info: "Estas las puedo hacer mas lentas y tranquilas ", tiempo: 60, foto: "assets/sentadilla.png" },
+    { nombre: "Marcha o Saltos Suaves", info: "Levantar las rodidillas como trotar y asi", tiempo: 60, foto: "assets/carrera.png" },
+    { nombre: "Descanso Preparatorio", info: "Bueno se acabo, a tomar aguita pq empieza el entrena", tiempo: 15, foto: "assets/shh.jpg" },
     
 
-    // --- RUTINA PRINCIPAL ---
+   
     { nombre: "Sentadillas", info: "Serie 1 de 2 — 10 reps", tiempo: 45, foto: "assets/sentadilla.png" },
     { nombre: "Descanso", info: "Solta la pata", tiempo: 30, foto: "assets/a1.png" },
     { nombre: "Sentadillas", info: "Serie 2 de 2 — 10 reps", tiempo: 45, foto: "assets/sentadilla.png" },
@@ -71,9 +70,8 @@ function iniciarEjercicio(ex) {
 
 function finalizarEjercicio() {
     nameDisplay.textContent = "YEI!!";
-    timerDisplay.style.color = "#2ecc71"; // Verde éxito
+
     
-    // Espera 3 segundos y pasa al siguiente
     setTimeout(() => {
         indiceActual++;
         if (indiceActual < rutina.length) {
