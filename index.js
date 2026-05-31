@@ -330,11 +330,10 @@ function updateLayout() {
     document.documentElement.style.setProperty("--card", "#22343f");
     if (stars) stars.style.opacity = "1";
   }
-  if (hour >= 6) {
-    document.documentElement.style.setProperty("--text", hour >= 19 ? "#e8f4f8" : "#1a2a33");
-    document.documentElement.style.setProperty("--text-soft", hour >= 19 ? "#8aacbb" : "#6b8a99");
-    document.documentElement.style.setProperty("--card", hour >= 19 ? "#22343f" : "#ffffff");
-  }
+  const isNight = hour >= 19 || hour < 6;
+  document.documentElement.style.setProperty("--text", isNight ? "#e8f4f8" : "#1a2a33");
+  document.documentElement.style.setProperty("--text-soft", isNight ? "#8aacbb" : "#6b8a99");
+  document.documentElement.style.setProperty("--card", isNight ? "#22343f" : "#ffffff");
 
   // APLICAR VARIABLES CSS (nuevo diseño)
   document.documentElement.style.setProperty("--bg-actual", colors.bg);
