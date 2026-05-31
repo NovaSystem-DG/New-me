@@ -19,300 +19,105 @@
       --border: #e2eef4;
       --radius: 16px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      transition: background 1.2s ease;
-    }
-
-    #stars-container {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      opacity: 0; transition: opacity 2s ease;
-    }
-    .star {
-      position: absolute; background: white; border-radius: 50%;
-      animation: twinkle var(--dur) infinite ease-in-out;
-    }
-    @keyframes twinkle {
-      0%,100% { opacity: 0.15; } 50% { opacity: 0.9; }
-    }
-
-    .app {
-      position: relative; z-index: 1;
-      display: grid;
-      grid-template-columns: 260px 1fr 300px;
-      gap: 20px;
-      padding: 24px;
-      max-width: 1280px;
-      margin: 0 auto;
-      min-height: 100vh;
-      align-items: start;
-    }
-
-    /* ── CARDS ── */
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 20px;
-    }
-
-    /* ── SIDEBAR IZQUIERDO ── */
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 1.2s ease; }
+    #stars-container { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 2s ease; }
+    .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--dur) infinite ease-in-out; }
+    @keyframes twinkle { 0%,100% { opacity: 0.15; } 50% { opacity: 0.9; } }
+    .app { position: relative; z-index: 1; display: grid; grid-template-columns: 260px 1fr 300px; gap: 20px; padding: 24px; max-width: 1280px; margin: 0 auto; min-height: 100vh; align-items: start; }
+    .card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; }
     .sidebar-left { display: flex; flex-direction: column; gap: 16px; }
-
     .profile-card { text-align: center; }
-    .avatar-wrap {
-      width: 80px; height: 80px;
-      margin: 0 auto 12px;
-      cursor: pointer; position: relative;
-    }
-    .avatar-wrap img {
-      width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-      border: 2.5px solid var(--accent);
-    }
-    .avatar-overlay {
-      position: absolute; inset: 0; border-radius: 50%;
-      background: rgba(0,0,0,0.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; opacity: 0; transition: 0.2s;
-    }
+    .avatar-wrap { width: 80px; height: 80px; margin: 0 auto 12px; cursor: pointer; position: relative; }
+    .avatar-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--accent); }
+    .avatar-overlay { position: absolute; inset: 0; border-radius: 50%; background: rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; font-size: 18px; opacity: 0; transition: 0.2s; }
     .avatar-wrap:hover .avatar-overlay { opacity: 1; }
     #avatar-input { display: none; }
-
-    .profile-name {
-      font-size: 1rem; font-weight: 600; color: var(--text);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 5px;
-    }
+    .profile-name { font-size: 1rem; font-weight: 600; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
     .profile-name .edit-icon { font-size: 0.75rem; opacity: 0.4; }
-    #name-edit {
-      width: 100%; border: 1.5px solid var(--accent); border-radius: 8px;
-      padding: 6px 10px; font-size: 0.9rem; outline: none;
-      display: none; margin-top: 6px; text-align: center;
-      font-family: 'Inter', sans-serif;
-    }
-    .phase-pill {
-      display: inline-block; margin-top: 8px;
-      background: var(--accent-light); color: var(--accent);
-      font-size: 0.72rem; font-weight: 600;
-      padding: 3px 12px; border-radius: 20px;
-      transition: background 0.5s, color 0.5s;
-    }
-
-    /* TIPS */
+    #name-edit { width: 100%; border: 1.5px solid var(--accent); border-radius: 8px; padding: 6px 10px; font-size: 0.9rem; outline: none; display: none; margin-top: 6px; text-align: center; font-family: 'Inter', sans-serif; }
+    .phase-pill { display: inline-block; margin-top: 8px; background: var(--accent-light); color: var(--accent); font-size: 0.72rem; font-weight: 600; padding: 3px 12px; border-radius: 20px; transition: background 0.5s, color 0.5s; }
     .tips-card { padding: 0; overflow: hidden; }
-    .tips-tabs {
-      display: flex; border-bottom: 1px solid var(--border);
-    }
-    .tips-tab {
-      flex: 1; padding: 11px 4px;
-      font-size: 0.72rem; font-weight: 600;
-      text-align: center; cursor: pointer;
-      color: var(--text-soft);
-      border-bottom: 2px solid transparent;
-      transition: 0.2s;
-    }
+    .tips-tabs { display: flex; border-bottom: 1px solid var(--border); }
+    .tips-tab { flex: 1; padding: 11px 4px; font-size: 0.72rem; font-weight: 600; text-align: center; cursor: pointer; color: var(--text-soft); border-bottom: 2px solid transparent; transition: 0.2s; }
     .tips-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-    .tips-body { padding: 16px; max-height: 460px; overflow-y: auto; }
+    .tips-body { padding: 16px; max-height: 500px; overflow-y: auto; }
     .tips-body::-webkit-scrollbar { width: 3px; }
     .tips-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
     .tip-panel { display: none; }
     .tip-panel.active { display: block; }
-
-    .tip-group-title {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.8px;
-      text-transform: uppercase; color: var(--accent);
-      margin: 14px 0 8px;
-    }
+    .tip-group-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--accent); margin: 14px 0 8px; }
     .tip-group-title:first-child { margin-top: 0; }
-
-    .tip-item {
-      font-size: 0.8rem; color: var(--text-soft); line-height: 1.5;
-      padding: 5px 0 5px 12px;
-      border-left: 2px solid var(--accent-light);
-      margin-bottom: 6px;
-    }
-
-    /* ── CENTRO ── */
+    .tip-item { font-size: 0.8rem; color: var(--text-soft); line-height: 1.5; padding: 5px 0 5px 12px; border-left: 2px solid var(--accent-light); margin-bottom: 6px; }
     .center-col { display: flex; flex-direction: column; gap: 16px; }
-
-    .date-card {
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .date-card h2 {
-      font-size: 1.9rem; font-weight: 700; color: var(--text); line-height: 1;
-    }
+    .date-card { display: flex; align-items: center; justify-content: space-between; }
+    .date-card h2 { font-size: 1.9rem; font-weight: 700; color: var(--text); line-height: 1; }
     .date-card p { font-size: 0.85rem; color: var(--text-soft); margin-top: 4px; text-transform: capitalize; }
-
     .schedule-card { padding: 20px; }
-    .section-label {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
-    }
-    #schedule-container {
-      display: flex; flex-direction: column; gap: 8px;
-      max-height: calc(100vh - 200px); overflow-y: auto; padding-right: 4px;
-    }
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+    #schedule-container { display: flex; flex-direction: column; gap: 8px; max-height: calc(100vh - 200px); overflow-y: auto; padding-right: 4px; }
     #schedule-container::-webkit-scrollbar { width: 3px; }
     #schedule-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    .task-card {
-      display: flex; align-items: stretch; gap: 12px;
-      background: var(--accent-soft);
-      border-radius: 12px; padding: 12px 14px;
-      border: 1.5px solid transparent;
-      transition: all 0.25s;
-    }
-    .task-card.active-now {
-      border-color: var(--accent);
-      background: white;
-      box-shadow: 0 2px 12px rgba(70,153,194,0.12);
-    }
-    .time-tag {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: var(--accent-light);
-      border-radius: 8px; padding: 6px 10px;
-      min-width: 66px;
-      font-size: 0.72rem; font-weight: 600; color: var(--accent);
-      line-height: 1.5; text-align: center;
-      transition: background 0.3s, color 0.3s;
-    }
+    .task-card { display: flex; align-items: stretch; gap: 12px; background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; border: 1.5px solid transparent; transition: all 0.25s; }
+    .task-card.active-now { border-color: var(--accent); background: white; box-shadow: 0 2px 12px rgba(70,153,194,0.12); }
+    .time-tag { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--accent-light); border-radius: 8px; padding: 6px 10px; min-width: 66px; font-size: 0.72rem; font-weight: 600; color: var(--accent); line-height: 1.5; text-align: center; transition: background 0.3s, color 0.3s; }
     .task-card.active-now .time-tag { background: var(--accent); color: white; }
     .task-info strong { font-size: 0.88rem; font-weight: 600; color: var(--text); }
     .task-info p { font-size: 0.78rem; color: var(--text-soft); margin-top: 2px; line-height: 1.4; }
-    .duration-pill {
-      font-size: 0.65rem; font-weight: 600;
-      background: var(--accent-light); color: var(--accent);
-      padding: 1px 6px; border-radius: 8px;
-      margin-left: 6px; vertical-align: middle;
-    }
-
-    .task-card.active-now .task-info strong {
-    color: #1a2a33;
-}
-
-    /* ── SIDEBAR DERECHO ── */
-    .sidebar-right {
-      display: flex; flex-direction: column; gap: 16px;
-      position: sticky; top: 24px;
-    }
-
-    /* RELOJ */
+    .duration-pill { font-size: 0.65rem; font-weight: 600; background: var(--accent-light); color: var(--accent); padding: 1px 6px; border-radius: 8px; margin-left: 6px; vertical-align: middle; }
+    .task-card.active-now .task-info strong { color: #1a2a33; }
+    .sidebar-right { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 24px; }
     .clock-row { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
-    .time-block {
-      width: 52px; height: 52px;
-      background: var(--accent); border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.35rem; font-weight: 700; color: white;
-      transition: background 0.5s;
-    }
+    .time-block { width: 52px; height: 52px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 700; color: white; transition: background 0.5s; }
     .time-block.sec { background: var(--accent-light); color: var(--accent); }
     .clock-sep { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
     .ampm-stack { display: flex; flex-direction: column; gap: 3px; margin-left: 4px; }
-    .ampm-stack button {
-      width: 34px; height: 24px; border: 1px solid var(--border);
-      background: white; border-radius: 6px;
-      font-size: 0.68rem; font-weight: 700; color: #aaa; cursor: default;
-    }
+    .ampm-stack button { width: 34px; height: 24px; border: 1px solid var(--border); background: white; border-radius: 6px; font-size: 0.68rem; font-weight: 700; color: #aaa; cursor: default; }
     .ampm-stack button.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-    /* ENTRENAMIENTO */
-    .workout-grid {
-      display: flex; flex-direction: column; gap: 5px; margin: 12px 0;
-    }
-    .workout-row {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.8rem; color: var(--text);
-      padding: 6px 10px; background: var(--accent-soft); border-radius: 8px;
-    }
+    .workout-grid { display: flex; flex-direction: column; gap: 5px; margin: 12px 0; }
+    .workout-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text); padding: 6px 10px; background: var(--accent-soft); border-radius: 8px; }
     .workout-row span { font-size: 0.72rem; color: var(--accent); font-weight: 600; }
-
-    .btn-go {
-      width: 100%; background: var(--accent); color: white; border: none;
-      padding: 11px; border-radius: 10px;
-      font-size: 0.85rem; font-weight: 600; cursor: pointer;
-      transition: all 0.2s; font-family: 'Inter', sans-serif;
-    }
+    .btn-go { width: 100%; background: var(--accent); color: white; border: none; padding: 11px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
     .btn-go:hover { filter: brightness(1.08); transform: translateY(-1px); }
-
-    /* CALENDARIO */
     .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
     #month-year { font-size: 0.9rem; font-weight: 700; color: var(--text); text-transform: capitalize; }
-    .nav-btn {
-      width: 26px; height: 26px; background: var(--accent-light); color: var(--accent);
-      border: none; border-radius: 7px; font-weight: 700; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; transition: 0.2s;
-    }
+    .nav-btn { width: 26px; height: 26px; background: var(--accent-light); color: var(--accent); border: none; border-radius: 7px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .nav-btn:hover { background: var(--accent); color: white; }
-    .cal-weekdays {
-      display: grid; grid-template-columns: repeat(7,1fr);
-      text-align: center; font-size: 0.65rem; font-weight: 700;
-      color: var(--text-soft); margin-bottom: 5px;
-    }
+    .cal-weekdays { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; font-size: 0.65rem; font-weight: 700; color: var(--text-soft); margin-bottom: 5px; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
-    .calendar-day {
-      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; border-radius: 7px; cursor: pointer;
-      background: var(--accent-soft); transition: 0.2s;
-    }
+    .calendar-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; border-radius: 7px; cursor: pointer; background: var(--accent-soft); transition: 0.2s; }
     .calendar-day:hover { background: var(--accent); color: white; }
     .calendar-day.today { background: var(--accent) !important; color: white !important; font-weight: 700; }
     .calendar-day.day-has-photo { border: 2px solid #f4a261; font-weight: 700; }
     .calendar-day.empty { background: transparent; cursor: default; }
-
-    /* MODAL */
-    .modal {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.4); z-index: 1000;
-      align-items: center; justify-content: center;
-      backdrop-filter: blur(4px);
-    }
-    .modal-inner {
-      background: white; border-radius: 20px;
-      padding: 24px; width: 90%; max-width: 360px; text-align: center;
-      box-shadow: 0 16px 50px rgba(0,0,0,0.15);
-    }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .modal-inner { background: white; border-radius: 20px; padding: 24px; width: 90%; max-width: 360px; text-align: center; box-shadow: 0 16px 50px rgba(0,0,0,0.15); }
     .modal-inner h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 14px; }
     #photo-preview img { width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; margin-bottom: 14px; }
     .modal-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
     .btn-upload { background: var(--accent); color: white; border: none; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
     .btn-del { background: #fee2e2; color: #dc2626; border: none; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
     .btn-cls { background: var(--accent-soft); color: var(--text-soft); border: none; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 0.82rem; }
-
-    @media (max-width: 900px) {
-      .app { grid-template-columns: 1fr; padding: 14px; gap: 14px; }
-      .sidebar-right { position: static; }
-      #schedule-container { max-height: 65vh; }
-    }
+    @media (max-width: 900px) { .app { grid-template-columns: 1fr; padding: 14px; gap: 14px; } .sidebar-right { position: static; } #schedule-container { max-height: 65vh; } }
   </style>
 </head>
 <body>
   <div id="stars-container"></div>
-
   <div class="app">
 
-    <!-- SIDEBAR IZQUIERDO -->
     <aside class="sidebar-left">
       <div class="card profile-card">
         <div class="avatar-wrap" onclick="document.getElementById('avatar-input').click()">
           <img id="avatar-img" src="assets/a1.png" alt="foto"/>
-          <div class="avatar-overlay">📷</div>
+          <div class="avatar-overlay">foto</div>
         </div>
         <input type="file" id="avatar-input" accept="image/*"/>
         <div class="profile-name" id="name-display" onclick="startEditName()">
           <span id="name-text">Mi nombre</span>
-          <span class="edit-icon">✏️</span>
+          <span class="edit-icon">editar</span>
         </div>
         <input type="text" id="name-edit" placeholder="Tu nombre..." onblur="saveName()" onkeydown="if(event.key==='Enter') saveName()"/>
-        <div class="phase-pill" id="phase-badge">Mañana</div>
+        <div class="phase-pill" id="phase-badge">Manana</div>
       </div>
 
       <div class="card tips-card">
@@ -322,45 +127,62 @@
           <div class="tips-tab" onclick="switchTip(this,'cuerpo')">Cuerpo</div>
         </div>
         <div class="tips-body">
+
           <div class="tip-panel active" id="tip-cara">
             <div class="tip-group-title">Rutina diaria</div>
-            <div class="tip-item">Lavar 2 veces al día con el jabón L'Oréal, agua tibia, sin restregar</div>
-            <div class="tip-item">Secar con toquecitos suaves, nunca arrastrando</div>
+            <div class="tip-item">Lavar 2 veces al dia con el jabon L'Oreal, agua tibia, sin restregar</div>
+            <div class="tip-item">Secar con toquecitos suaves, nunca arrastrando la toalla</div>
             <div class="tip-item">No tocar ni apretar los granitos — dejan manchas oscuras</div>
-            <div class="tip-item">No apoyar la mano en la barbilla durante el día</div>
+            <div class="tip-item">No apoyar la mano en la barbilla durante el dia</div>
+            <div class="tip-group-title">Para el brote</div>
+            <div class="tip-item">El brote en barbilla despues del periodo es acne hormonal — es normal</div>
+            <div class="tip-item">Si puedes conseguir: jabon de azufre para zonas con brote, 2-3 veces por semana</div>
+            <div class="tip-item">En farmacia busca crema con acido salicilico 2% — destapona poros sin aclarar</div>
             <div class="tip-group-title">Fotos</div>
-            <div class="tip-item">Camera at neck level, not from above</div>
-            <div class="tip-item">Turned 30-45° sideways — it suits you better than from the front</div>
-            <div class="tip-item">Window light in front of you for even skin tone</div>
+            <div class="tip-item">Camara a la altura del cuello, no desde arriba</div>
+            <div class="tip-item">Girada 30-45 grados de lado — te favorece mas que de frente directa</div>
+            <div class="tip-item">Luz de ventana frente a ti para piel uniforme y rasgos suaves</div>
           </div>
+
           <div class="tip-panel" id="tip-pelo">
-            <div class="tip-group-title">Antes de mojar</div>
-            <div class="tip-item">Desenredar en seco por secciones — el pelo mojado enredado se rompe</div>
-            <div class="tip-item">Dividir en 4 secciones, trabajar con dedos o peine de dientes anchos</div>
-            <div class="tip-group-title">En la ducha</div>
-            <div class="tip-item">Shampoo solo en el cuero cabelludo, masajear con yemas</div>
-            <div class="tip-item">Acondicionador de medios a puntas, bastante cantidad — 5 min</div>
-            <div class="tip-item">Desenredar con dedos mientras el acondicionador está puesto</div>
-            <div class="tip-item">Enjuague final con agua FRÍA — cierra la cutícula, da brillo</div>
-            <div class="tip-group-title">Saliendo</div>
-            <div class="tip-item">Envolver suave con camiseta de algodón, nunca frotar</div>
-            <div class="tip-item">Mascarilla Garnier húmedo, 10 min, enjuagar</div>
-            <div class="tip-item">Activador Terra por secciones retorciendo levemente</div>
-            <div class="tip-item">No tocar hasta que seque completamente</div>
-            <div class="tip-group-title">Entre lavados</div>
-            <div class="tip-item">Máximo 1-2 veces/semana — el pelo tipo 4 se reseca</div>
-            <div class="tip-item">Para refrescar: spray de agua + activador Terra por encima</div>
+            <div class="tip-group-title">Dia de lavado (1 vez por semana)</div>
+            <div class="tip-item">Pelo seco — divide en 4 secciones y desenreda cada una con los dedos antes de entrar a la ducha</div>
+            <div class="tip-item">En la ducha — suelta todo, moja el pelo completo y aplica Terra Color Shampoo en el cuero cabelludo, masajear con yemas</div>
+            <div class="tip-item">Yellow Curly Conditioner o Color Mask (no los dos el mismo dia) de medios a puntas, bastante cantidad, 5-15 min — si quedaron nudos, desenredar con dedos mientras esta puesto porque resbala mejor</div>
+            <div class="tip-item">Color Mask es para hidratacion profunda, usarla en reemplazo del acondicionador, no ademas de el</div>
+            <div class="tip-item">Enjuague final con agua FRIA — cierra la cuticula y da brillo</div>
+            <div class="tip-item">Salir envolviendo suave con camiseta de algodon, nunca frotar con toalla</div>
+            <div class="tip-item">Dejar secar sin tocar — no frotar ni revolver el pelo seco</div>
+            <div class="tip-group-title">Dias intermedios</div>
+            <div class="tip-item">Solo spray de agua si el pelo se siente seco — nada mas</div>
+            <div class="tip-group-title">El resto de dias</div>
+            <div class="tip-item">No tocar — dejar que el pelo descanse y retenga la humedad</div>
+            <div class="tip-item">El Curly Activator y gel Etniker son para definir rizos — si no buscas ese resultado no los necesitas</div>
+            <div class="tip-item">El Babaria acondicionador usarlo para el cuerpo, el Yellow es mejor para tu tipo de pelo</div>
           </div>
+
           <div class="tip-panel" id="tip-cuerpo">
-            <div class="tip-group-title">Body</div>
-            <div class="tip-item">Apply deodorant the night before as well.</div>
-            <div class="tip-item">Feet: Soak for 10 minutes with water and baking soda twice a week</div>
+            <div class="tip-group-title">Olor corporal</div>
+            <div class="tip-item">Aplicar desodorante tambien la noche anterior, no solo en la manana</div>
+            <div class="tip-item">Pies: remojo 10 min con agua y bicarbonato 2 veces por semana</div>
+            <div class="tip-group-title">Zona intima</div>
+            <div class="tip-item">Solo agua tibia por fuera — el interior se limpia solo, el jabon altera el pH</div>
+            <div class="tip-item">Cambiar el protector mas seguido durante el dia</div>
+            <div class="tip-item">Un olor leve despues de horas con protector puesto es completamente normal</div>
+            <div class="tip-group-title">Piel</div>
+            <div class="tip-item">Las estrias en gluteos son normales — casi todo el mundo las tiene</div>
+            <div class="tip-item">Aceite de rosa mosqueta o manteca de karite aplicado regularmente las hace menos visibles</div>
+            <div class="tip-item">Las lineas en rodillas probablemente son de crecimiento, no estrias</div>
+            <div class="tip-group-title">Dientes</div>
+            <div class="tip-item">Bicarbonato con un poco de agua hasta hacer pasta, cepillar suave 1-2 min, una vez por semana maximo</div>
+            <div class="tip-item">Mas seguido dania el esmalte — no excederse</div>
+            <div class="tip-item">Reducir cafe, te negro o gaseosas oscuras — manchan mas que cualquier otra cosa</div>
           </div>
+
         </div>
       </div>
     </aside>
 
-    <!-- CENTRO -->
     <div class="center-col">
       <div class="card date-card">
         <div>
@@ -374,7 +196,6 @@
       </div>
     </div>
 
-    <!-- SIDEBAR DERECHO -->
     <aside class="sidebar-right">
       <div class="card">
         <div class="section-label">Hora del sistema</div>
@@ -394,40 +215,39 @@
       <div class="card">
         <div class="section-label">Rutina diaria · ~50 min</div>
         <div class="workout-grid">
-          <div class="workout-row">Sentadillas Sumo <span>3×12</span></div>
-          <div class="workout-row">Hip Thrust <span>3×15</span></div>
-          <div class="workout-row">Romanian Deadlift <span>3×12</span></div>
-          <div class="workout-row">Fire Hydrants <span>3×15 p/p</span></div>
-          <div class="workout-row">Patada de Glúteo <span>3×15 p/p</span></div>
-          <div class="workout-row">Plancha <span>3×20s</span></div>
-          <div class="workout-row">Dead Bug <span>3×10</span></div>
-          <div class="workout-row">Russian Twist <span>3×15</span></div>
-          <div class="workout-row">Flexiones rodillas <span>3×8</span></div>
-          <div class="workout-row">Fondos en silla <span>3×10</span></div>
-          <div class="workout-row">Plancha toque hombro <span>3×10</span></div>
+          <div class="workout-row">Sentadillas Sumo <span>3x12</span></div>
+          <div class="workout-row">Hip Thrust <span>3x15</span></div>
+          <div class="workout-row">Romanian Deadlift <span>3x12</span></div>
+          <div class="workout-row">Fire Hydrants <span>3x15 p/p</span></div>
+          <div class="workout-row">Patada de Gluteo <span>3x15 p/p</span></div>
+          <div class="workout-row">Plancha <span>3x20s</span></div>
+          <div class="workout-row">Dead Bug <span>3x10</span></div>
+          <div class="workout-row">Russian Twist <span>3x15</span></div>
+          <div class="workout-row">Flexiones rodillas <span>3x8</span></div>
+          <div class="workout-row">Fondos en silla <span>3x10</span></div>
+          <div class="workout-row">Plancha toque hombro <span>3x10</span></div>
         </div>
-        <button class="btn-go" onclick="window.location.href='entrenamiento.html'">Comenzar entrenamiento →</button>
+        <button class="btn-go" onclick="window.location.href='entrenamiento.html'">Comenzar entrenamiento</button>
       </div>
 
       <div class="card">
         <div class="section-label">Calendario de avances</div>
         <div class="cal-nav">
-          <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+          <button class="nav-btn" onclick="changeMonth(-1)">&#8249;</button>
           <span id="month-year"></span>
-          <button class="nav-btn" onclick="changeMonth(1)">›</button>
+          <button class="nav-btn" onclick="changeMonth(1)">&#8250;</button>
         </div>
         <div class="cal-weekdays">
-          <div>Do</div><div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sá</div>
+          <div>Do</div><div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sa</div>
         </div>
         <div id="calendar-days" class="calendar-grid"></div>
       </div>
     </aside>
   </div>
 
-  <!-- MODAL -->
   <div id="photo-modal" class="modal">
     <div class="modal-inner">
-      <h4 id="selected-date-text">Día seleccionado</h4>
+      <h4 id="selected-date-text">Dia seleccionado</h4>
       <div id="photo-preview"></div>
       <div class="modal-btns">
         <input type="file" id="upload-photo" accept="image/*" style="display:none"/>
@@ -440,7 +260,6 @@
 
   <script src="index.js"></script>
   <script>
-    // Nombre
     const sn = localStorage.getItem('profileName');
     if (sn) document.getElementById('name-text').textContent = sn;
     function startEditName() {
@@ -455,7 +274,6 @@
       document.getElementById('name-edit').style.display = 'none';
       document.getElementById('name-display').style.display = 'flex';
     }
-    // Avatar
     const sa = localStorage.getItem('profileAvatar');
     if (sa) document.getElementById('avatar-img').src = sa;
     document.getElementById('avatar-input').addEventListener('change', function(e) {
@@ -464,7 +282,6 @@
       r.onload = ev => { try { localStorage.setItem('profileAvatar', ev.target.result); document.getElementById('avatar-img').src = ev.target.result; } catch(e) { alert('Imagen muy pesada'); } };
       r.readAsDataURL(f);
     });
-    // Tips tabs
     function switchTip(el, tab) {
       document.querySelectorAll('.tip-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tips-tab').forEach(t => t.classList.remove('active'));
