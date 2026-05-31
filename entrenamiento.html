@@ -5,90 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrenamiento</title>
     <link rel="icon" type="image/png" href="assets/trap.png">
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css">
     <style>
-        .workout-container {
-            max-width: 500px;
-            margin: 50px auto;
-            text-align: center;
-            padding: 20px;
-        }
-        .exercise-image {
-            width: 100%;
-            height: 250px;
-            background: #eee;
-            border-radius: 20px;
-            margin-bottom: 20px;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            background: #1a6fc4;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .workout-wrapper {
+            display: flex;
+            width: 100%;
+            max-width: 860px;
+            min-height: 520px;
+            border-radius: 24px;
             overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        .exercise-image img { width: 100%; height: 100%; object-fit: cover; }
-        
+
+        /* ── PANEL IZQUIERDO ── */
+        .panel-left {
+            width: 300px;
+            flex-shrink: 0;
+            background: #1255a0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 28px 20px 24px;
+        }
+
+        .exercise-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #0d3f7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .exercise-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .exercise-name-left {
+            margin-top: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.35;
+        }
+
+        .exercise-label {
+            margin-top: 5px;
+            font-size: 0.72rem;
+            color: #80aedd;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .instruccion-box {
+            background: rgba(255,255,255,0.1);
+            border-left: 3px solid rgba(255,255,255,0.35);
+            border-radius: 0 10px 10px 0;
+            padding: 12px 14px;
+            width: 100%;
+            min-height: 50px;
+        }
+
+        .instruccion-text {
+            font-size: 0.87rem;
+            color: #d6e8ff;
+            line-height: 1.55;
+        }
+
+        /* ── PANEL DERECHO ── */
+        .panel-right {
+            flex: 1;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 36px 40px;
+        }
+
         .timer-display {
-            font-size: 4rem;
+            font-size: 6rem;
             font-weight: 800;
-            margin: 20px 0;
-            color: var(--reloj-actual);
+            color: #1a6fc4;
+            line-height: 1;
+            letter-spacing: -3px;
+            margin-bottom: 6px;
         }
-        .status-msg { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
-        .next-info { color: #666; margin-bottom: 30px; }
-        
-        .controls { display: flex; gap: 10px; justify-content: center; }
-        .btn-finish { background: #ff4757; color: white; border: none; padding: 15px 30px; border-radius: 12px; cursor: pointer; }
-    
 
+        .timer-label {
+            font-size: 0.75rem;
+            color: #b0b8c5;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 28px;
+        }
 
-    body {
-        padding-bottom: 50px; /* Espacio extra para que los botones no peguen abajo */
-        background-color: var(--bg-actual); /* Mantiene el color dinámico */
-    }
+        .serie-box {
+            background: #f0f6ff;
+            border-left: 4px solid #1a6fc4;
+            border-radius: 0 12px 12px 0;
+            padding: 13px 18px;
+            width: 100%;
+            margin-bottom: 28px;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+        }
 
-    .workout-container {
-        max-width: 500px;
-        margin: 20px auto; /* Reducimos el margen superior para que quepa mejor */
-        text-align: center;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.9); /* Un fondo para que se vea como tarjeta */
-        border-radius: 30px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-    
-    /* Imagen más flexible para que no empuje todo hacia abajo */
-    .exercise-image {
-        width: 100%;
-        max-height: 200px; /* Bajamos un poco el alto para que suban los botones */
-        background: #eee;
-        border-radius: 20px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
+        .serie-text {
+            font-size: 0.97rem;
+            color: #2c5282;
+            line-height: 1.45;
+            font-weight: 600;
+        }
 
-</style>
+        .controls {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: #1a6fc4;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.05em;
+            transition: background 0.15s;
+        }
+        .btn-primary:hover { background: #155ca8; }
+        .btn-primary:active { transform: scale(0.98); }
+
+        .btn-finish {
+            background: white;
+            color: #e53e3e;
+            border: 2px solid #e53e3e;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+        .btn-finish:hover { background: #fff5f5; }
+
+        @media (max-width: 620px) {
+            .workout-wrapper { flex-direction: column; max-width: 400px; }
+            .panel-left { width: 100%; padding: 16px; }
+            .exercise-image { width: 120px; aspect-ratio: 1; margin: 0 auto; }
+            .panel-right { padding: 20px 24px; }
+            .timer-display { font-size: 4.5rem; }
+            .timer-label { margin-bottom: 20px; }
+        }
     </style>
-
 </head>
 <body>
-    <div class="workout-container">
-        <div id="exercise-view">
+
+    <div class="workout-wrapper">
+
+        <!-- PANEL IZQUIERDO: imagen + nombre + instrucción técnica -->
+        <div class="panel-left">
             <div class="exercise-image" id="image-container">
-             <img src="assets/descanso6.jpg" alt="" srcset="">
+                <img src="assets/descanso6.jpg" alt="ejercicio">
             </div>
-            
-            <div class="status-msg" id="exercise-name">¡Prepárate!</div>
-            <div class="next-info" id="series-info">La rutina está por comenzar</div>
-            
-            <div class="timer-display" id="timer">00:15</div>
-            
-            <div class="controls">
-                <button class="btn-primary" id="btn-next">EMPEZAR</button>
-                <button class="btn-finish" onclick="intentarCerrar()">Terminar/Salir</button>
+            <div id="exercise-name" class="exercise-name-left">¡Prepárate!</div>
+            <div class="exercise-label">ejercicio actual</div>
+
+            <div class="instruccion-box">
+                <div class="instruccion-text" id="instruccion-info">La rutina está por comenzar</div>
             </div>
         </div>
+
+        <!-- PANEL DERECHO: cronómetro + serie + botones -->
+        <div class="panel-right">
+            <div class="timer-display" id="timer">00:15</div>
+            <div class="timer-label">tiempo restante</div>
+
+            <div class="serie-box">
+                <div class="serie-text" id="serie-info">Pulsa EMPEZAR cuando estés lista</div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-primary" id="btn-next">EMPEZAR</button>
+                <button class="btn-finish" onclick="intentarCerrar()">Salir</button>
+            </div>
+        </div>
+
     </div>
 
     <script src="entrenamiento.js"></script>

@@ -1,133 +1,476 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New year New me</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link rel="icon" type="image/png" href="assets/a1.png" />
-  </head>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Year New Me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/a1.png"/>
+  <style>
+    :root {
+      --bg: #e8f4f8;
+      --accent: #4699c2;
+      --accent-light: #d4eaf5;
+      --accent-soft: #eaf5fb;
+      --text: #1a2a33;
+      --text-soft: #6b8a99;
+      --card: #ffffff;
+      --border: #e2eef4;
+      --radius: 16px;
+    }
 
-  <body>
-    <div id="stars-container"></div>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <div class="main-container">
-      <section class="tasks-section">
-        <div class="header-main-card">
-          <div class="date-info">
-            <h2 id="current-day-title">Lunes</h2>
-            <p id="current-full-date" class="date-subtitle">7 de marzo, 2026</p>
-          </div>
-          <div class="time-phase-badge" id="phase-badge">Mañana</div>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 1.2s ease;
+    }
+
+    #stars-container {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: 0; transition: opacity 2s ease;
+    }
+    .star {
+      position: absolute; background: white; border-radius: 50%;
+      animation: twinkle var(--dur) infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.15; } 50% { opacity: 0.9; }
+    }
+
+    .app {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 260px 1fr 300px;
+      gap: 20px;
+      padding: 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+      min-height: 100vh;
+      align-items: start;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+
+    /* ── SIDEBAR IZQUIERDO ── */
+    .sidebar-left { display: flex; flex-direction: column; gap: 16px; }
+
+    .profile-card { text-align: center; }
+    .avatar-wrap {
+      width: 80px; height: 80px;
+      margin: 0 auto 12px;
+      cursor: pointer; position: relative;
+    }
+    .avatar-wrap img {
+      width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+      border: 2.5px solid var(--accent);
+    }
+    .avatar-overlay {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: rgba(0,0,0,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; opacity: 0; transition: 0.2s;
+    }
+    .avatar-wrap:hover .avatar-overlay { opacity: 1; }
+    #avatar-input { display: none; }
+
+    .profile-name {
+      font-size: 1rem; font-weight: 600; color: var(--text);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .profile-name .edit-icon { font-size: 0.75rem; opacity: 0.4; }
+    #name-edit {
+      width: 100%; border: 1.5px solid var(--accent); border-radius: 8px;
+      padding: 6px 10px; font-size: 0.9rem; outline: none;
+      display: none; margin-top: 6px; text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+    .phase-pill {
+      display: inline-block; margin-top: 8px;
+      background: var(--accent-light); color: var(--accent);
+      font-size: 0.72rem; font-weight: 600;
+      padding: 3px 12px; border-radius: 20px;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    /* TIPS */
+    .tips-card { padding: 0; overflow: hidden; }
+    .tips-tabs {
+      display: flex; border-bottom: 1px solid var(--border);
+    }
+    .tips-tab {
+      flex: 1; padding: 11px 4px;
+      font-size: 0.72rem; font-weight: 600;
+      text-align: center; cursor: pointer;
+      color: var(--text-soft);
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+    }
+    .tips-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .tips-body { padding: 16px; max-height: 460px; overflow-y: auto; }
+    .tips-body::-webkit-scrollbar { width: 3px; }
+    .tips-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .tip-panel { display: none; }
+    .tip-panel.active { display: block; }
+
+    .tip-group-title {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase; color: var(--accent);
+      margin: 14px 0 8px;
+    }
+    .tip-group-title:first-child { margin-top: 0; }
+
+    .tip-item {
+      font-size: 0.8rem; color: var(--text-soft); line-height: 1.5;
+      padding: 5px 0 5px 12px;
+      border-left: 2px solid var(--accent-light);
+      margin-bottom: 6px;
+    }
+
+    /* ── CENTRO ── */
+    .center-col { display: flex; flex-direction: column; gap: 16px; }
+
+    .date-card {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .date-card h2 {
+      font-size: 1.9rem; font-weight: 700; color: var(--text); line-height: 1;
+    }
+    .date-card p { font-size: 0.85rem; color: var(--text-soft); margin-top: 4px; text-transform: capitalize; }
+
+    .schedule-card { padding: 20px; }
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    #schedule-container {
+      display: flex; flex-direction: column; gap: 8px;
+      max-height: calc(100vh - 200px); overflow-y: auto; padding-right: 4px;
+    }
+    #schedule-container::-webkit-scrollbar { width: 3px; }
+    #schedule-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .task-card {
+      display: flex; align-items: stretch; gap: 12px;
+      background: var(--accent-soft);
+      border-radius: 12px; padding: 12px 14px;
+      border: 1.5px solid transparent;
+      transition: all 0.25s;
+    }
+    .task-card.active-now {
+      border-color: var(--accent);
+      background: white;
+      box-shadow: 0 2px 12px rgba(70,153,194,0.12);
+    }
+    .time-tag {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: var(--accent-light);
+      border-radius: 8px; padding: 6px 10px;
+      min-width: 66px;
+      font-size: 0.72rem; font-weight: 600; color: var(--accent);
+      line-height: 1.5; text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .task-card.active-now .time-tag { background: var(--accent); color: white; }
+    .task-info strong { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+    .task-info p { font-size: 0.78rem; color: var(--text-soft); margin-top: 2px; line-height: 1.4; }
+    .duration-pill {
+      font-size: 0.65rem; font-weight: 600;
+      background: var(--accent-light); color: var(--accent);
+      padding: 1px 6px; border-radius: 8px;
+      margin-left: 6px; vertical-align: middle;
+    }
+
+    .task-card.active-now .task-info strong {
+    color: #1a2a33;
+}
+
+    /* ── SIDEBAR DERECHO ── */
+    .sidebar-right {
+      display: flex; flex-direction: column; gap: 16px;
+      position: sticky; top: 24px;
+    }
+
+    /* RELOJ */
+    .clock-row { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+    .time-block {
+      width: 52px; height: 52px;
+      background: var(--accent); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; font-weight: 700; color: white;
+      transition: background 0.5s;
+    }
+    .time-block.sec { background: var(--accent-light); color: var(--accent); }
+    .clock-sep { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+    .ampm-stack { display: flex; flex-direction: column; gap: 3px; margin-left: 4px; }
+    .ampm-stack button {
+      width: 34px; height: 24px; border: 1px solid var(--border);
+      background: white; border-radius: 6px;
+      font-size: 0.68rem; font-weight: 700; color: #aaa; cursor: default;
+    }
+    .ampm-stack button.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* ENTRENAMIENTO */
+    .workout-grid {
+      display: flex; flex-direction: column; gap: 5px; margin: 12px 0;
+    }
+    .workout-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; color: var(--text);
+      padding: 6px 10px; background: var(--accent-soft); border-radius: 8px;
+    }
+    .workout-row span { font-size: 0.72rem; color: var(--accent); font-weight: 600; }
+
+    .btn-go {
+      width: 100%; background: var(--accent); color: white; border: none;
+      padding: 11px; border-radius: 10px;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .btn-go:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+    /* CALENDARIO */
+    .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    #month-year { font-size: 0.9rem; font-weight: 700; color: var(--text); text-transform: capitalize; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--accent-light); color: var(--accent);
+      border: none; border-radius: 7px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: 0.2s;
+    }
+    .nav-btn:hover { background: var(--accent); color: white; }
+    .cal-weekdays {
+      display: grid; grid-template-columns: repeat(7,1fr);
+      text-align: center; font-size: 0.65rem; font-weight: 700;
+      color: var(--text-soft); margin-bottom: 5px;
+    }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+    .calendar-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; border-radius: 7px; cursor: pointer;
+      background: var(--accent-soft); transition: 0.2s;
+    }
+    .calendar-day:hover { background: var(--accent); color: white; }
+    .calendar-day.today { background: var(--accent) !important; color: white !important; font-weight: 700; }
+    .calendar-day.day-has-photo { border: 2px solid #f4a261; font-weight: 700; }
+    .calendar-day.empty { background: transparent; cursor: default; }
+
+    /* MODAL */
+    .modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4); z-index: 1000;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-inner {
+      background: white; border-radius: 20px;
+      padding: 24px; width: 90%; max-width: 360px; text-align: center;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.15);
+    }
+    .modal-inner h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 14px; }
+    #photo-preview img { width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; margin-bottom: 14px; }
+    .modal-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .btn-upload { background: var(--accent); color: white; border: none; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+    .btn-del { background: #fee2e2; color: #dc2626; border: none; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+    .btn-cls { background: var(--accent-soft); color: var(--text-soft); border: none; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 0.82rem; }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; padding: 14px; gap: 14px; }
+      .sidebar-right { position: static; }
+      #schedule-container { max-height: 65vh; }
+    }
+  </style>
+</head>
+<body>
+  <div id="stars-container"></div>
+
+  <div class="app">
+
+    <!-- SIDEBAR IZQUIERDO -->
+    <aside class="sidebar-left">
+      <div class="card profile-card">
+        <div class="avatar-wrap" onclick="document.getElementById('avatar-input').click()">
+          <img id="avatar-img" src="assets/a1.png" alt="foto"/>
+          <div class="avatar-overlay">📷</div>
         </div>
+        <input type="file" id="avatar-input" accept="image/*"/>
+        <div class="profile-name" id="name-display" onclick="startEditName()">
+          <span id="name-text">Mi nombre</span>
+          <span class="edit-icon">✏️</span>
+        </div>
+        <input type="text" id="name-edit" placeholder="Tu nombre..." onblur="saveName()" onkeydown="if(event.key==='Enter') saveName()"/>
+        <div class="phase-pill" id="phase-badge">Mañana</div>
+      </div>
 
-        <div id="schedule-container" class="scrollable-list"></div>
-      </section>
-
-      <aside class="widgets-section">
-        <div class="widget time-picker">
-          <p class="label">Hora del sistema</p>
-          <div class="time-inputs">
-            <div class="time-box">
-              <div id="hour-display" class="time-val">00</div>
-              <span>Hrs</span>
-            </div>
-            <div class="separator">:</div>
-            <div class="time-box">
-              <div id="minute-display" class="time-val">00</div>
-              <span>Min</span>
-            </div>
-            <div class="separator">:</div>
-            <div class="time-box">
-              <div id="second-display" class="time-val sec">00</div>
-              <span>Seg</span>
-            </div>
-            <div class="am-pm">
-              <button id="am-indicator">AM</button>
-              <button id="pm-indicator">PM</button>
-            </div>
+      <div class="card tips-card">
+        <div class="tips-tabs">
+          <div class="tips-tab active" onclick="switchTip(this,'cara')">Cara</div>
+          <div class="tips-tab" onclick="switchTip(this,'pelo')">Pelo</div>
+          <div class="tips-tab" onclick="switchTip(this,'cuerpo')">Cuerpo</div>
+        </div>
+        <div class="tips-body">
+          <div class="tip-panel active" id="tip-cara">
+            <div class="tip-group-title">Rutina diaria</div>
+            <div class="tip-item">Lavar 2 veces al día con el jabón L'Oréal, agua tibia, sin restregar</div>
+            <div class="tip-item">Secar con toquecitos suaves, nunca arrastrando</div>
+            <div class="tip-item">No tocar ni apretar los granitos — dejan manchas oscuras</div>
+            <div class="tip-item">No apoyar la mano en la barbilla durante el día</div>
+            <div class="tip-group-title">Fotos</div>
+            <div class="tip-item">Camera at neck level, not from above</div>
+            <div class="tip-item">Turned 30-45° sideways — it suits you better than from the front</div>
+            <div class="tip-item">Window light in front of you for even skin tone</div>
           </div>
-          <div class="widget-footer">
-            <span class="material-icons">timer</span>
-            <span class="sync-text">Sincronizado con el sistema</span>
+          <div class="tip-panel" id="tip-pelo">
+            <div class="tip-group-title">Antes de mojar</div>
+            <div class="tip-item">Desenredar en seco por secciones — el pelo mojado enredado se rompe</div>
+            <div class="tip-item">Dividir en 4 secciones, trabajar con dedos o peine de dientes anchos</div>
+            <div class="tip-group-title">En la ducha</div>
+            <div class="tip-item">Shampoo solo en el cuero cabelludo, masajear con yemas</div>
+            <div class="tip-item">Acondicionador de medios a puntas, bastante cantidad — 5 min</div>
+            <div class="tip-item">Desenredar con dedos mientras el acondicionador está puesto</div>
+            <div class="tip-item">Enjuague final con agua FRÍA — cierra la cutícula, da brillo</div>
+            <div class="tip-group-title">Saliendo</div>
+            <div class="tip-item">Envolver suave con camiseta de algodón, nunca frotar</div>
+            <div class="tip-item">Mascarilla Garnier húmedo, 10 min, enjuagar</div>
+            <div class="tip-item">Activador Terra por secciones retorciendo levemente</div>
+            <div class="tip-item">No tocar hasta que seque completamente</div>
+            <div class="tip-group-title">Entre lavados</div>
+            <div class="tip-item">Máximo 1-2 veces/semana — el pelo tipo 4 se reseca</div>
+            <div class="tip-item">Para refrescar: spray de agua + activador Terra por encima</div>
+          </div>
+          <div class="tip-panel" id="tip-cuerpo">
+            <div class="tip-group-title">Body</div>
+            <div class="tip-item">Apply deodorant the night before as well.</div>
+            <div class="tip-item">Feet: Soak for 10 minutes with water and baking soda twice a week</div>
           </div>
         </div>
+      </div>
+    </aside>
 
-        <div class="widget dialog-card">
-          <div class="exercise-panel">
-            <h3>Rutina Diaria (15 min)</h3>
-            <ul class="exercise-list">
-              <li><strong>Sentadillas:</strong> 2 × 10</li>
-              <li><strong>Hip thrust:</strong> 2 × 12</li>
-              <li><strong>Fire hydrants:</strong> 2 × 12 (p/p)</li>
-              <li><strong>Russian twist:</strong> 2 × 12</li>
-              <li><strong>Plancha:</strong> 2 × 15s</li>
-            </ul>
-            <button
-              id="start-workout"
-              class="btn-primary"
-              onclick="window.location.href = 'entrenamiento.html'"
-            >
-              Comenzar Entrenamiento
-            </button>
-          </div>
+    <!-- CENTRO -->
+    <div class="center-col">
+      <div class="card date-card">
+        <div>
+          <h2 id="current-day-title">Lunes</h2>
+          <p id="current-full-date">30 de mayo, 2026</p>
         </div>
-
-       <div class="widget calendar-widget">
-    <h3>Calendario de Avances</h3>
-    <div class="calendar-header">
-        <button onclick="changeMonth(-1)" class="btn-nav"><</button>
-        <span id="month-year"></span>
-        <button onclick="changeMonth(1)" class="btn-nav">></button>
+      </div>
+      <div class="card schedule-card">
+        <div class="section-label">Horario de hoy</div>
+        <div id="schedule-container"></div>
+      </div>
     </div>
 
-    <div class="calendar-weekdays">
-        <div>Do</div><div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sá</div>
-    </div>
-
-    <div id="calendar-days" class="calendar-grid"></div>
-
-    </div>
-
-          <div id="photo-modal" class="modal">
-            <div class="modal-content">
-              <h4 id="selected-date-text" style="margin-top: 0; color: #333">
-                Día Seleccionado
-              </h4>
-              <div id="photo-preview"></div>
-              <div class="modal-footer">
-                <input
-                  type="file"
-                  id="upload-photo"
-                  accept="image/*"
-                  style="display: none"
-                />
-                <button
-                  class="btn-primary"
-                  onclick="document.getElementById('upload-photo').click()"
-                >
-                  Subir Avance
-                </button>
-                <button
-                  id="btn-delete"
-                  class="btn-delete"
-                  onclick="deletePhoto()"
-                  style="display: none"
-                >
-                  Eliminar Foto
-                </button>
-                <button class="btn-close" onclick="closeModal()">Cerrar</button>
-              </div>
-            </div>
+    <!-- SIDEBAR DERECHO -->
+    <aside class="sidebar-right">
+      <div class="card">
+        <div class="section-label">Hora del sistema</div>
+        <div class="clock-row">
+          <div class="time-block" id="hour-display">00</div>
+          <div class="clock-sep">:</div>
+          <div class="time-block" id="minute-display">00</div>
+          <div class="clock-sep">:</div>
+          <div class="time-block sec" id="second-display">00</div>
+          <div class="ampm-stack">
+            <button id="am-indicator">AM</button>
+            <button id="pm-indicator">PM</button>
           </div>
         </div>
-      </aside>
-    </div>
+      </div>
 
-    <script src="index.js"></script>
-  </body>
+      <div class="card">
+        <div class="section-label">Rutina diaria · ~50 min</div>
+        <div class="workout-grid">
+          <div class="workout-row">Sentadillas Sumo <span>3×12</span></div>
+          <div class="workout-row">Hip Thrust <span>3×15</span></div>
+          <div class="workout-row">Romanian Deadlift <span>3×12</span></div>
+          <div class="workout-row">Fire Hydrants <span>3×15 p/p</span></div>
+          <div class="workout-row">Patada de Glúteo <span>3×15 p/p</span></div>
+          <div class="workout-row">Plancha <span>3×20s</span></div>
+          <div class="workout-row">Dead Bug <span>3×10</span></div>
+          <div class="workout-row">Russian Twist <span>3×15</span></div>
+          <div class="workout-row">Flexiones rodillas <span>3×8</span></div>
+          <div class="workout-row">Fondos en silla <span>3×10</span></div>
+          <div class="workout-row">Plancha toque hombro <span>3×10</span></div>
+        </div>
+        <button class="btn-go" onclick="window.location.href='entrenamiento.html'">Comenzar entrenamiento →</button>
+      </div>
+
+      <div class="card">
+        <div class="section-label">Calendario de avances</div>
+        <div class="cal-nav">
+          <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+          <span id="month-year"></span>
+          <button class="nav-btn" onclick="changeMonth(1)">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <div>Do</div><div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sá</div>
+        </div>
+        <div id="calendar-days" class="calendar-grid"></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- MODAL -->
+  <div id="photo-modal" class="modal">
+    <div class="modal-inner">
+      <h4 id="selected-date-text">Día seleccionado</h4>
+      <div id="photo-preview"></div>
+      <div class="modal-btns">
+        <input type="file" id="upload-photo" accept="image/*" style="display:none"/>
+        <label for="upload-photo" class="btn-upload">Subir avance</label>
+        <button id="btn-delete" class="btn-del" onclick="deletePhoto()" style="display:none">Eliminar</button>
+        <button class="btn-cls" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+  <script>
+    // Nombre
+    const sn = localStorage.getItem('profileName');
+    if (sn) document.getElementById('name-text').textContent = sn;
+    function startEditName() {
+      const i = document.getElementById('name-edit');
+      i.value = document.getElementById('name-text').textContent;
+      document.getElementById('name-display').style.display = 'none';
+      i.style.display = 'block'; i.focus();
+    }
+    function saveName() {
+      const v = document.getElementById('name-edit').value.trim();
+      if (v) { document.getElementById('name-text').textContent = v; localStorage.setItem('profileName', v); }
+      document.getElementById('name-edit').style.display = 'none';
+      document.getElementById('name-display').style.display = 'flex';
+    }
+    // Avatar
+    const sa = localStorage.getItem('profileAvatar');
+    if (sa) document.getElementById('avatar-img').src = sa;
+    document.getElementById('avatar-input').addEventListener('change', function(e) {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => { try { localStorage.setItem('profileAvatar', ev.target.result); document.getElementById('avatar-img').src = ev.target.result; } catch(e) { alert('Imagen muy pesada'); } };
+      r.readAsDataURL(f);
+    });
+    // Tips tabs
+    function switchTip(el, tab) {
+      document.querySelectorAll('.tip-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tips-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tip-' + tab).classList.add('active');
+      el.classList.add('active');
+    }
+  </script>
+</body>
 </html>
