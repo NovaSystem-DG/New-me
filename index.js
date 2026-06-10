@@ -90,7 +90,7 @@ const fullSchedule = {
     ],
   },
 
-  // 2: MARTES — descanso activo + alemán
+
   2: {
     morning: [
       { start: "06:00", end: "06:10", task: "Despertar", desc: "huh" },
